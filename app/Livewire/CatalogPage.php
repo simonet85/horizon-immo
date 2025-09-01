@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Livewire;
+
+use App\Models\Property;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class CatalogPage extends Component
+{
+    use WithPagination;
+
+    public $search = '';
+    public $selectedCity = '';
+    public $selectedType = '';
+    public $selectedStatus = '';
+    public $priceRange = '';
+    public $sortBy = 'created_at';
+    public $sortDirection = 'desc';
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'selectedCity' => ['except' => ''],
+        'selectedType' => ['except' => ''],
+        'selectedStatus' => ['except' => ''],
+        'priceRange' => ['except' => ''],
+        'sortBy' => ['except' => 'created_at'],
+        'sortDirection' => ['except' => 'desc'],
+    ];
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSelectedCity()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSelectedType()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSelectedStatus()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPriceRange()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortBy === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortBy = $field;
+            $this->sortDirection = 'asc';
+        }
+        $this->resetPage();
+    }
+
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->selectedCity = '';
+        $this->selectedType = '';
+        $this->selectedStatus = '';
+        $this->priceRange = '';
+        $this->sortBy = 'created_at';
+        $this->sortDirection = 'desc';
+        $this->resetPage();
+    }
+
+    public function render()
+    {
+        $query = Property::query();
+
+        // Apply status filter (default to available)
+        if ($this->selectedStatus) {
+            $query->where('status', $this->selectedStatus);
+        } else {
+            $query->where('status', 'available');
+        }
+
+        // Apply search filter
+        if ($this->search) {
+            $query->where(function($q) {
+                $q->where('title', 'like', '%' . $this->search . '%')
+                  ->orWhere('description', 'like', '%' . $this->search . '%')
+                  ->orWhere('city', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        // Apply city filter
+        if ($this->selectedCity) {
+            $query->where('city', $this->selectedCity);
+        }
+
+        // Apply type filter
+        if ($this->selectedType) {
+            $query->where('type', $this->selectedType);
+        }
+
+        // Apply price range filter
+        if ($this->priceRange) {
+            $range = explode('-', $this->priceRange);
+            if (count($range) === 2) {
+                $query->whereBetween('price', [(int)$range[0], (int)$range[1]]);
+            }
+        }
+
+        // Apply sorting
+        $query->orderBy($this->sortBy, $this->sortDirection);
+
+        $properties = $query->paginate(9);
+
+        return view('livewire.catalog-page', [
+            'properties' => $properties
+        ])->layout('layouts.site');
+    }
+}
