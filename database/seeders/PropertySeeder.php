@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Property;
+use Illuminate\Database\Seeder;
 
 class PropertySeeder extends Seeder
 {
@@ -24,7 +23,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 3,
                 'surface_area' => 350,
                 'images' => ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2075&q=80'],
-                'featured' => true
+                'featured' => true,
             ],
             [
                 'title' => 'Appartement Vista Marina',
@@ -36,7 +35,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 2,
                 'surface_area' => 120,
                 'images' => ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'],
-                'featured' => true
+                'featured' => true,
             ],
             [
                 'title' => 'Maison Familiale Stellenbosch',
@@ -48,7 +47,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 4,
                 'surface_area' => 450,
                 'images' => ['https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2053&q=80'],
-                'featured' => true
+                'featured' => true,
             ],
             [
                 'title' => 'Penthouse Sandton City',
@@ -60,7 +59,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 3,
                 'surface_area' => 250,
                 'images' => ['https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=2532&q=80'],
-                'featured' => false
+                'featured' => false,
             ],
             [
                 'title' => 'Villa Hermanus Oceanfront',
@@ -72,7 +71,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 5,
                 'surface_area' => 600,
                 'images' => ['https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80'],
-                'featured' => false
+                'featured' => false,
             ],
             [
                 'title' => 'Appartement Green Point',
@@ -84,7 +83,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 1,
                 'surface_area' => 85,
                 'images' => ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'],
-                'featured' => false
+                'featured' => false,
             ],
             [
                 'title' => 'Maison Constantia Winelands',
@@ -96,7 +95,7 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 3,
                 'surface_area' => 380,
                 'images' => ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'],
-                'featured' => false
+                'featured' => false,
             ],
             [
                 'title' => 'Villa Camps Bay Sunset',
@@ -108,8 +107,8 @@ class PropertySeeder extends Seeder
                 'bathrooms' => 4,
                 'surface_area' => 520,
                 'images' => ['https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2112&q=80'],
-                'featured' => false
-            ]
+                'featured' => false,
+            ],
         ];
 
         foreach ($properties as $property) {

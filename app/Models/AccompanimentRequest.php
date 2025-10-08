@@ -22,11 +22,15 @@ class AccompanimentRequest extends Model
         'budget_range',
         'additional_info',
         'personal_contribution_percentage',
-        'status'
+        'monthly_income',
+        'existing_debt',
+        'loan_duration',
+        'message',
+        'status',
     ];
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 }

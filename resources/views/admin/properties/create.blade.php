@@ -1,20 +1,27 @@
-@extends('admin.layout')
+@extends('layouts.admin')
 
 @section('title', 'Ajouter une Propriété')
 
-@section('header')
+@section('content')
+<div class="space-y-6">
+    <!-- En-tête -->
     <div class="flex justify-between items-center">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Ajouter une Propriété
-        </h2>
-        <a href="{{ route('admin.properties.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Ajouter une Propriété</h1>
+            <p class="text-gray-600 mt-1">Créez une nouvelle propriété immobilière</p>
+        </div>
+        <a href="{{ route('admin.properties.index') }}" 
+           class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
             Retour à la liste
         </a>
     </div>
-@endsection
 
-@section('content')
-    <form action="{{ route('admin.properties.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <!-- Formulaire -->
+    <div class="bg-white rounded-lg shadow-sm">
+        <form action="{{ route('admin.properties.store') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -28,19 +35,19 @@
                 @enderror
             </div>
 
-            <!-- Type -->
+            <!-- Catégorie -->
             <div>
-                <label for="type" class="block text-sm font-medium text-gray-700">Type *</label>
-                <select name="type" id="type" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('type') border-red-500 @enderror">
-                    <option value="">Sélectionner un type</option>
-                    <option value="villa" {{ old('type') === 'villa' ? 'selected' : '' }}>Villa</option>
-                    <option value="maison" {{ old('type') === 'maison' ? 'selected' : '' }}>Maison</option>
-                    <option value="appartement" {{ old('type') === 'appartement' ? 'selected' : '' }}>Appartement</option>
-                    <option value="terrain" {{ old('type') === 'terrain' ? 'selected' : '' }}>Terrain</option>
-                    <option value="commercial" {{ old('type') === 'commercial' ? 'selected' : '' }}>Commercial</option>
+                <label for="category_id" class="block text-sm font-medium text-gray-700">Catégorie *</label>
+                <select name="category_id" id="category_id" 
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('category_id') border-red-500 @enderror">
+                    <option value="">Sélectionner une catégorie</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
                 </select>
-                @error('type')
+                @error('category_id')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -164,15 +171,20 @@
             </div>
         </div>
 
-        <div class="flex justify-end space-x-3">
+        <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
             <a href="{{ route('admin.properties.index') }}" 
-               class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg">
+               class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
                 Annuler
             </a>
             <button type="submit" 
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
                 Créer la propriété
             </button>
         </div>
-    </form>
+        </form>
+    </div>
+</div>
 @endsection

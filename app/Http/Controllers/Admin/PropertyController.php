@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $properties = Property::latest()->paginate(10);
+        $properties = Property::with('category')->latest()->paginate(10);
+
         return view('admin.properties.index', compact('properties'));
     }
 
@@ -24,7 +26,9 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        return view('admin.properties.create');
+        $categories = Category::all();
+
+        return view('admin.properties.create', compact('categories'));
     }
 
     /**
@@ -36,7 +40,7 @@ class PropertyController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'type' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
             'city' => 'required|string',
             'address' => 'nullable|string',
             'bedrooms' => 'nullable|integer|min:0',
@@ -45,7 +49,7 @@ class PropertyController extends Controller
             'status' => ['required', Rule::in(['available', 'reserved', 'sold'])],
             'is_featured' => 'boolean',
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Gérer l'upload des images
@@ -53,7 +57,7 @@ class PropertyController extends Controller
             $imageUrls = [];
             foreach ($request->file('images') as $image) {
                 $path = $image->store('properties', 'public');
-                $imageUrls[] = '/storage/' . $path;
+                $imageUrls[] = '/storage/'.$path;
             }
             $validated['images'] = $imageUrls;
         }
@@ -69,6 +73,8 @@ class PropertyController extends Controller
      */
     public function show(Property $property)
     {
+        $property->load('category');
+
         return view('admin.properties.show', compact('property'));
     }
 
@@ -77,7 +83,9 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        return view('admin.properties.edit', compact('property'));
+        $categories = Category::all();
+
+        return view('admin.properties.edit', compact('property', 'categories'));
     }
 
     /**
@@ -89,7 +97,7 @@ class PropertyController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'type' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
             'city' => 'required|string',
             'address' => 'nullable|string',
             'bedrooms' => 'nullable|integer|min:0',
@@ -98,7 +106,7 @@ class PropertyController extends Controller
             'status' => ['required', Rule::in(['available', 'reserved', 'sold'])],
             'is_featured' => 'boolean',
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Gérer l'upload des nouvelles images
@@ -106,7 +114,7 @@ class PropertyController extends Controller
             $imageUrls = [];
             foreach ($request->file('images') as $image) {
                 $path = $image->store('properties', 'public');
-                $imageUrls[] = '/storage/' . $path;
+                $imageUrls[] = '/storage/'.$path;
             }
             $validated['images'] = $imageUrls;
         } else {

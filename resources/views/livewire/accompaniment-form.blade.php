@@ -192,49 +192,200 @@
                         </div>
                     </div>
                     @else
-                    <!-- Step 3: Financial Information -->
-                    <div class="space-y-6">
-                        <div>
-                            <label for="personal_contribution" class="block text-sm font-medium text-gray-700 mb-4">
-                                Apport personnel: {{ $personal_contribution_percentage }}%
-                            </label>
-                            <div class="px-3">
-                                <input wire:model.live="personal_contribution_percentage" type="range" 
-                                       min="10" max="100" step="5" id="personal_contribution"
-                                       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
-                                <div class="flex justify-between text-sm text-gray-500 mt-2">
-                                    <span>10%</span>
-                                    <span>30%</span>
-                                    <span>50%</span>
-                                    <span>70%</span>
-                                    <span>100%</span>
+                    <!-- Step 3: Enhanced Financial Information -->
+                    <div class="space-y-8">
+                        <!-- Personal Financial Information -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-4 flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                </svg>
+                                Informations Financières
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="monthly_income" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Revenu mensuel net (ZAR) *
+                                    </label>
+                                    <input wire:model.live="monthly_income" type="number" id="monthly_income" 
+                                           placeholder="Ex: 35000" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    @error('monthly_income') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+                                
+                                <div>
+                                    <label for="existing_debt" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Dettes mensuelles existantes (ZAR)
+                                    </label>
+                                    <input wire:model.live="existing_debt" type="number" id="existing_debt" 
+                                           placeholder="Ex: 5000 (voiture, cartes crédit...)" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    @error('existing_debt') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-blue-50 p-6 rounded-lg">
-                            <h3 class="font-semibold text-blue-900 mb-3">Simulation Financière</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <!-- Loan Parameters -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Left Column: Controls -->
+                            <div class="space-y-6">
+                                <!-- Personal Contribution Slider -->
                                 <div>
-                                    <span class="text-gray-600">Budget sélectionné:</span>
-                                    <span class="font-medium text-blue-900">{{ $budget_range ?: 'Non défini' }}</span>
+                                    <label for="personal_contribution" class="block text-sm font-medium text-gray-700 mb-4">
+                                        Apport personnel: <span class="text-lg font-bold text-blue-600">{{ $personal_contribution_percentage }}%</span>
+                                    </label>
+                                    <div class="px-3">
+                                        <input wire:model.live="personal_contribution_percentage" type="range" 
+                                               min="10" max="100" step="5" id="personal_contribution"
+                                               class="w-full h-3 bg-gradient-to-r from-red-200 via-yellow-200 to-green-200 rounded-lg appearance-none cursor-pointer">
+                                        <div class="flex justify-between text-sm text-gray-500 mt-2">
+                                            <span>10%</span>
+                                            <span>30%</span>
+                                            <span>50%</span>
+                                            <span>70%</span>
+                                            <span>100%</span>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Loan Duration -->
                                 <div>
-                                    <span class="text-gray-600">Apport personnel ({{ $personal_contribution_percentage }}%):</span>
-                                    <span class="font-medium text-green-600">À calculer</span>
+                                    <label for="loan_duration" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Durée du prêt: <span class="font-semibold">{{ $loan_duration }} ans</span>
+                                    </label>
+                                    <input wire:model.live="loan_duration" type="range" 
+                                           min="5" max="30" step="1" id="loan_duration"
+                                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                        <span>5 ans</span>
+                                        <span>15 ans</span>
+                                        <span>30 ans</span>
+                                    </div>
+                                    @error('loan_duration') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
-                                <div>
-                                    <span class="text-gray-600">Financement requis:</span>
-                                    <span class="font-medium text-blue-600">À calculer</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-600">Mensualité estimée:</span>
-                                    <span class="font-medium text-blue-600">À calculer</span>
+
+                                <!-- Interest Rate Info -->
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">Taux d'intérêt moyen:</span>
+                                        <span class="font-semibold text-gray-900">{{ $interest_rate }}%</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        Basé sur les taux moyens des banques sud-africaines
+                                    </p>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-500 mt-3">
-                                * Simulation basée sur les taux Standard Bank. Un conseiller vous contactera pour une évaluation précise.
-                            </p>
+
+                            <!-- Right Column: Calculations -->
+                            <div class="space-y-6">
+                                <!-- Calculation Results -->
+                                <div class="bg-white border-2 border-blue-200 rounded-xl p-6">
+                                    <h4 class="font-semibold text-gray-900 mb-4 flex items-center">
+                                        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Simulation Financière
+                                    </h4>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">Budget moyen:</span>
+                                            <span class="font-bold text-lg">{{ number_format($this->averageBudget, 0, ',', ' ') }} ZAR</span>
+                                        </div>
+                                        
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">Apport personnel ({{ $personal_contribution_percentage }}%):</span>
+                                            <span class="font-bold text-green-600">{{ number_format($this->personalContributionAmount, 0, ',', ' ') }} ZAR</span>
+                                        </div>
+                                        
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">Montant à financer:</span>
+                                            <span class="font-bold text-blue-600">{{ number_format($this->loanAmount, 0, ',', ' ') }} ZAR</span>
+                                        </div>
+                                        
+                                        <div class="border-t pt-4">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600">Mensualité estimée:</span>
+                                                <span class="font-bold text-xl text-indigo-600">{{ number_format($this->monthlyPayment, 0, ',', ' ') }} ZAR/mois</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Affordability Analysis -->
+                                @if($monthly_income)
+                                <div class="bg-{{ $this->affordabilityStatus['color'] }}-50 border border-{{ $this->affordabilityStatus['color'] }}-200 rounded-xl p-6">
+                                    <h4 class="font-semibold text-{{ $this->affordabilityStatus['color'] }}-900 mb-3 flex items-center">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Analyse de Solvabilité
+                                    </h4>
+                                    
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-700">Ratio d'endettement:</span>
+                                            <span class="font-bold text-{{ $this->affordabilityStatus['color'] }}-700">{{ number_format($this->affordabilityRatio, 1) }}%</span>
+                                        </div>
+                                        
+                                        <div class="w-full bg-gray-200 rounded-full h-3">
+                                            <div class="bg-{{ $this->affordabilityStatus['color'] }}-500 h-3 rounded-full transition-all duration-300" 
+                                                 style="width: {{ min($this->affordabilityRatio, 100) }}%"></div>
+                                        </div>
+                                        
+                                        <p class="text-sm text-{{ $this->affordabilityStatus['color'] }}-700 font-medium">
+                                            {{ $this->affordabilityStatus['message'] }}
+                                        </p>
+                                        
+                                        @if($this->affordabilityRatio > 50)
+                                        <div class="mt-4 p-3 bg-red-100 border border-red-300 rounded-lg">
+                                            <p class="text-sm text-red-700">
+                                                ⚠️ Attention: Un ratio supérieur à 50% peut compliquer l'obtention d'un prêt.
+                                                Considérez augmenter votre apport personnel ou réduire vos dettes existantes.
+                                            </p>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Tips and Recommendations -->
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+                            <h4 class="font-semibold text-green-900 mb-3 flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l2.012 3.73 4.07.593-2.94 2.87.694 4.053L12 12.767l-3.836 2.479.694-4.053-2.94-2.87 4.07-.593L12 3z"></path>
+                                </svg>
+                                Conseils Personnalisés
+                            </h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                @if($personal_contribution_percentage < 20)
+                                <div class="flex items-start space-x-2">
+                                    <span class="text-orange-500 font-bold">💡</span>
+                                    <p class="text-green-700">Augmenter votre apport à 20% minimum peut réduire significativement vos mensualités.</p>
+                                </div>
+                                @endif
+                                
+                                @if($loan_duration > 25)
+                                <div class="flex items-start space-x-2">
+                                    <span class="text-blue-500 font-bold">📈</span>
+                                    <p class="text-green-700">Une durée plus courte augmente les mensualités mais réduit le coût total du prêt.</p>
+                                </div>
+                                @endif
+                                
+                                <div class="flex items-start space-x-2">
+                                    <span class="text-green-500 font-bold">🏛️</span>
+                                    <p class="text-green-700">Nos partenaires bancaires offrent des taux préférentiels pour les résidents européens.</p>
+                                </div>
+                                
+                                <div class="flex items-start space-x-2">
+                                    <span class="text-purple-500 font-bold">📋</span>
+                                    <p class="text-green-700">Une pré-approbation bancaire accélère votre processus d'achat immobilier.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endif

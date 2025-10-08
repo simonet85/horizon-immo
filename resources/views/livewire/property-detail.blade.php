@@ -106,8 +106,8 @@
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Intéressé par cette propriété ?</h3>
                     
                     <div class="space-y-4">
-                        <a href="/contact" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 text-center block">
-                            Nous Contacter
+                        <a href="/contact?property={{ $property->id }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 text-center block">
+                            Poser une Question sur ce Bien
                         </a>
                         
                         <a href="/accompagnement" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 text-center block">
@@ -243,9 +243,9 @@
                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-center text-sm">
                                 Voir Détails
                             </a>
-                            <a href="/contact" 
+                            <a href="/contact?property={{ $similarProperty->id }}" 
                                class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-center text-sm">
-                                Contact
+                                Question
                             </a>
                         </div>
                     </div>

@@ -16,29 +16,30 @@ class PropertyFactory extends Factory
      */
     public function definition(): array
     {
-        $types = ['villa', 'maison', 'appartement', 'terrain', 'commercial'];
-        $cities = ['Cape Town', 'Johannesburg', 'Durban', 'Pretoria', 'Port Elizabeth', 'Stellenbosch', 'Franschhoek', 'Hermanus'];
+        $types = ['Villa', 'Maison', 'Appartement', 'Terrain', 'Commercial'];
+        $transactionTypes = ['Vente', 'Location'];
         $statuses = ['available', 'reserved', 'sold'];
-        
+        $locations = ['Cape Town', 'Johannesburg', 'Durban', 'Pretoria', 'Port Elizabeth', 'Stellenbosch', 'Franschhoek', 'Hermanus'];
+
         $type = fake()->randomElement($types);
-        $city = fake()->randomElement($cities);
-        
+
         return [
-            'title' => fake()->sentence(3) . ' à ' . $city,
+            'title' => fake()->sentence(3),
             'description' => fake()->paragraphs(3, true),
             'price' => fake()->numberBetween(500000, 5000000),
             'type' => $type,
-            'city' => $city,
+            'transaction_type' => fake()->randomElement($transactionTypes),
+            'city' => fake()->randomElement($locations),
             'address' => fake()->address(),
-            'bedrooms' => $type === 'terrain' ? null : fake()->numberBetween(1, 6),
-            'bathrooms' => $type === 'terrain' ? null : fake()->numberBetween(1, 4),
             'surface_area' => fake()->numberBetween(50, 500),
+            'bedrooms' => $type === 'Terrain' ? null : fake()->numberBetween(1, 6),
+            'bathrooms' => $type === 'Terrain' ? null : fake()->numberBetween(1, 4),
             'status' => fake()->randomElement($statuses),
-            'is_featured' => fake()->boolean(20), // 20% de chance d'être en vedette
+            'category_id' => \App\Models\Category::factory(),
             'images' => [
                 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop',
                 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop',
-                'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop'
+                'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop',
             ],
         ];
     }

@@ -17,28 +17,35 @@ class Property extends Model
         'city',
         'address',
         'type',
+        'transaction_type',
         'bedrooms',
         'bathrooms',
         'surface_area',
         'images',
         'status',
-        'is_featured'
+        'is_featured',
+        'category_id',
     ];
 
     protected $casts = [
         'images' => 'array',
         'is_featured' => 'boolean',
         'price' => 'decimal:2',
-        'surface_area' => 'decimal:2'
+        'surface_area' => 'decimal:2',
     ];
 
     public function getFormattedPriceAttribute()
     {
-        return number_format($this->price, 0, ',', ' ') . ' ' . $this->currency;
+        return number_format($this->price, 0, ',', ' ').' '.$this->currency;
     }
 
     public function getMainImageAttribute()
     {
         return $this->images[0] ?? '/images/placeholder-property.jpg';
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

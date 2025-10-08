@@ -11,11 +11,17 @@ class CatalogPage extends Component
     use WithPagination;
 
     public $search = '';
+
     public $selectedCity = '';
+
     public $selectedType = '';
+
     public $selectedStatus = '';
+
     public $priceRange = '';
+
     public $sortBy = 'created_at';
+
     public $sortDirection = 'desc';
 
     protected $queryString = [
@@ -53,8 +59,19 @@ class CatalogPage extends Component
         $this->resetPage();
     }
 
-    public function sortBy($field)
+    public function updatedSortBy()
     {
+        $this->resetPage();
+    }
+
+    public function updatedSortDirection()
+    {
+        $this->resetPage();
+    }
+
+    public function setSortBy($field)
+    {
+        \Log::info('setSortBy called with: '.$field);
         if ($this->sortBy === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
@@ -62,10 +79,12 @@ class CatalogPage extends Component
             $this->sortDirection = 'asc';
         }
         $this->resetPage();
+        \Log::info('New sort: '.$this->sortBy.' - '.$this->sortDirection);
     }
 
     public function resetFilters()
     {
+        \Log::info('ResetFilters called');
         $this->search = '';
         $this->selectedCity = '';
         $this->selectedType = '';
@@ -74,25 +93,25 @@ class CatalogPage extends Component
         $this->sortBy = 'created_at';
         $this->sortDirection = 'desc';
         $this->resetPage();
+        \Log::info('Filters reset complete');
     }
 
     public function render()
     {
         $query = Property::query();
 
-        // Apply status filter (default to available)
+        // Apply status filter (show all by default, filter only if selected)
         if ($this->selectedStatus) {
             $query->where('status', $this->selectedStatus);
-        } else {
-            $query->where('status', 'available');
         }
+        // Note: Removed default filter to 'available' to show all properties
 
         // Apply search filter
         if ($this->search) {
-            $query->where(function($q) {
-                $q->where('title', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%')
-                  ->orWhere('city', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                    ->orWhere('city', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -110,7 +129,7 @@ class CatalogPage extends Component
         if ($this->priceRange) {
             $range = explode('-', $this->priceRange);
             if (count($range) === 2) {
-                $query->whereBetween('price', [(int)$range[0], (int)$range[1]]);
+                $query->whereBetween('price', [(int) $range[0], (int) $range[1]]);
             }
         }
 
@@ -120,7 +139,7 @@ class CatalogPage extends Component
         $properties = $query->paginate(9);
 
         return view('livewire.catalog-page', [
-            'properties' => $properties
+            'properties' => $properties,
         ])->layout('layouts.site');
     }
 }

@@ -80,31 +80,39 @@
                     <!-- Sort Options -->
                     <div class="flex items-center space-x-2">
                         <span class="text-sm font-medium text-gray-700">Trier par:</span>
-                        <button wire:click="sortBy('price')" 
-                                class="px-3 py-1 rounded-lg text-sm {{ $sortBy === 'price' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                        <button wire:click="setSortBy('price')" 
+                                class="px-3 py-1 rounded-lg text-sm transition-colors {{ $sortBy === 'price' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}"
+                                type="button">
                             Prix
                             @if($sortBy === 'price')
-                                @if($sortDirection === 'asc') ↑ @else ↓ @endif
+                                <span class="ml-1">@if($sortDirection === 'asc') ↑ @else ↓ @endif</span>
                             @endif
                         </button>
-                        <button wire:click="sortBy('created_at')" 
-                                class="px-3 py-1 rounded-lg text-sm {{ $sortBy === 'created_at' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                        <button wire:click="setSortBy('created_at')" 
+                                class="px-3 py-1 rounded-lg text-sm transition-colors {{ $sortBy === 'created_at' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}"
+                                type="button">
                             Date
                             @if($sortBy === 'created_at')
-                                @if($sortDirection === 'asc') ↑ @else ↓ @endif
+                                <span class="ml-1">@if($sortDirection === 'asc') ↑ @else ↓ @endif</span>
                             @endif
                         </button>
-                        <button wire:click="sortBy('title')" 
-                                class="px-3 py-1 rounded-lg text-sm {{ $sortBy === 'title' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                        <button wire:click="setSortBy('title')" 
+                                class="px-3 py-1 rounded-lg text-sm transition-colors {{ $sortBy === 'title' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}"
+                                type="button">
                             Nom
                             @if($sortBy === 'title')
-                                @if($sortDirection === 'asc') ↑ @else ↓ @endif
+                                <span class="ml-1">@if($sortDirection === 'asc') ↑ @else ↓ @endif</span>
                             @endif
                         </button>
                     </div>
 
                     <!-- Clear Filters -->
-                    <button wire:click="resetFilters" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">
+                    <button wire:click="resetFilters" 
+                            class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg border border-gray-300 transition-colors"
+                            type="button">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
                         Effacer les filtres
                     </button>
 
@@ -127,7 +135,15 @@
                     <div class="relative">
                         <img src="{{ $property->main_image }}" alt="{{ $property->title }}" class="w-full h-64 object-cover">
                         <div class="absolute top-4 left-4">
-                            <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">Disponible</span>
+                            @if($property->status === 'available')
+                                <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">Disponible</span>
+                            @elseif($property->status === 'reserved')
+                                <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">Réservé</span>
+                            @elseif($property->status === 'sold')
+                                <span class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">Vendu</span>
+                            @else
+                                <span class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-medium">{{ ucfirst($property->status) }}</span>
+                            @endif
                         </div>
                         <div class="absolute top-4 right-4">
                             <span class="bg-white text-gray-900 px-3 py-1 rounded-full text-sm font-bold">{{ $property->formatted_price }}</span>
@@ -191,8 +207,8 @@
                                 <a href="{{ route('property.detail', $property->id) }}" class="btn-primary text-sm py-2 px-3">
                                     Détails
                                 </a>
-                                <a href="/contact" class="btn-primary text-sm py-2 px-3">
-                                    Contact
+                                <a href="/contact?property={{ $property->id }}" class="btn-primary text-sm py-2 px-3">
+                                    Question
                                 </a>
                             </div>
                         </div>
@@ -216,7 +232,10 @@
                 <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucune propriété trouvée</h3>
                 <p class="text-gray-600 mb-6">Essayez de modifier vos critères de recherche ou contactez-nous pour des biens sur mesure.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button wire:click="resetFilters" class="btn-outline">
+                    <button wire:click="resetFilters" class="btn-outline inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
                         Effacer les filtres
                     </button>
                     <a href="/contact" class="btn-primary">
@@ -236,7 +255,7 @@
                 Notre équipe peut vous aider à trouver la propriété parfaite selon vos critères spécifiques.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/accompagnement" class="btn-primary bg-white text-blue-900 hover:bg-gray-100">
+                <a href="/accompagnement" class="border-2 border-white text-white hover:bg-white hover:text-blue-900 font-medium py-3 px-8 rounded-lg transition-all duration-200">
                     Demande personnalisée
                 </a>
                 <a href="/contact" class="border-2 border-white text-white hover:bg-white hover:text-blue-900 font-medium py-3 px-8 rounded-lg transition-all duration-200">

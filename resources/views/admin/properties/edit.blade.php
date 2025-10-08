@@ -1,24 +1,35 @@
-@extends('admin.layout')
+@extends('layouts.admin')
 
 @section('title', 'Modifier la Propriété')
 
-@section('header')
+@section('content')
+<div class="space-y-6">
+    <!-- En-tête -->
     <div class="flex justify-between items-center">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Modifier : {{ $property->title }}
-        </h2>
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Modifier la Propriété</h1>
+            <p class="text-gray-600 mt-1">{{ $property->title }}</p>
+        </div>
         <div class="flex space-x-2">
-            <a href="{{ route('admin.properties.show', $property) }}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg">
+            <a href="{{ route('admin.properties.show', $property) }}" 
+               class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
                 Voir
             </a>
-            <a href="{{ route('admin.properties.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg">
+            <a href="{{ route('admin.properties.index') }}" 
+               class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
                 Retour à la liste
             </a>
         </div>
     </div>
-@endsection
 
-@section('content')
+    <!-- Formulaire -->
     <form action="{{ route('admin.properties.update', $property) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
@@ -34,19 +45,19 @@
                 @enderror
             </div>
 
-            <!-- Type -->
+            <!-- Catégorie -->
             <div>
-                <label for="type" class="block text-sm font-medium text-gray-700">Type *</label>
-                <select name="type" id="type" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('type') border-red-500 @enderror">
-                    <option value="">Sélectionner un type</option>
-                    <option value="villa" {{ old('type', $property->type) === 'villa' ? 'selected' : '' }}>Villa</option>
-                    <option value="maison" {{ old('type', $property->type) === 'maison' ? 'selected' : '' }}>Maison</option>
-                    <option value="appartement" {{ old('type', $property->type) === 'appartement' ? 'selected' : '' }}>Appartement</option>
-                    <option value="terrain" {{ old('type', $property->type) === 'terrain' ? 'selected' : '' }}>Terrain</option>
-                    <option value="commercial" {{ old('type', $property->type) === 'commercial' ? 'selected' : '' }}>Commercial</option>
+                <label for="category_id" class="block text-sm font-medium text-gray-700">Catégorie *</label>
+                <select name="category_id" id="category_id" 
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('category_id') border-red-500 @enderror">
+                    <option value="">Sélectionner une catégorie</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id', $property->category_id) == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
                 </select>
-                @error('type')
+                @error('category_id')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

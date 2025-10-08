@@ -1,0 +1,240 @@
+
+
+<?php $__env->startSection('title', 'Nouveau message'); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="space-y-6">
+    <!-- En-tête -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Nouveau message</h1>
+            <p class="text-gray-600 mt-1">Créer un nouveau message de contact</p>
+        </div>
+        <a href="<?php echo e(route('admin.messages.index')); ?>" 
+           class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium">
+            Retour
+        </a>
+    </div>
+    <!-- Formulaire -->
+    <div class="bg-white rounded-lg shadow">
+        <form action="<?php echo e(route('admin.messages.store')); ?>" method="POST" class="space-y-6 p-6">
+                    <?php echo csrf_field(); ?>
+
+                    <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                        <div class="md:grid md:grid-cols-3 md:gap-6">
+                            <div class="md:col-span-1">
+                                <h3 class="text-lg font-medium leading-6 text-gray-900">Informations du contact</h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Informations sur la personne qui envoie le message.
+                                </p>
+                            </div>
+                            <div class="mt-5 md:mt-0 md:col-span-2">
+                                <div class="grid grid-cols-6 gap-6">
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label for="name" class="block text-sm font-medium text-gray-700">
+                                            Nom complet
+                                        </label>
+                                        <input type="text" 
+                                               name="name" 
+                                               id="name" 
+                                               value="<?php echo e(old('name')); ?>"
+                                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-300 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                        <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-4">
+                                        <label for="email" class="block text-sm font-medium text-gray-700">
+                                            Email
+                                        </label>
+                                        <input type="email" 
+                                               name="email" 
+                                               id="email" 
+                                               value="<?php echo e(old('email')); ?>"
+                                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-300 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                        <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-3">
+                                        <label for="phone" class="block text-sm font-medium text-gray-700">
+                                            Téléphone (optionnel)
+                                        </label>
+                                        <input type="text" 
+                                               name="phone" 
+                                               id="phone" 
+                                               value="<?php echo e(old('phone')); ?>"
+                                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-300 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                        <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                        <div class="md:grid md:grid-cols-3 md:gap-6">
+                            <div class="md:col-span-1">
+                                <h3 class="text-lg font-medium leading-6 text-gray-900">Message</h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Contenu du message de contact.
+                                </p>
+                            </div>
+                            <div class="mt-5 md:mt-0 md:col-span-2">
+                                <div class="grid grid-cols-6 gap-6">
+                                    <div class="col-span-6">
+                                        <label for="subject" class="block text-sm font-medium text-gray-700">
+                                            Sujet
+                                        </label>
+                                        <input type="text" 
+                                               name="subject" 
+                                               id="subject" 
+                                               value="<?php echo e(old('subject')); ?>"
+                                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md <?php $__errorArgs = ['subject'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-300 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                        <?php $__errorArgs = ['subject'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+
+                                    <div class="col-span-6">
+                                        <label for="property_id" class="block text-sm font-medium text-gray-700">
+                                            Propriété concernée (optionnel)
+                                        </label>
+                                        <select name="property_id" 
+                                                id="property_id" 
+                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm <?php $__errorArgs = ['property_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-300 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                            <option value="">Aucune propriété spécifique</option>
+                                            <?php $__currentLoopData = $properties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $property): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($property->id); ?>" <?php echo e(old('property_id') == $property->id ? 'selected' : ''); ?>>
+                                                    <?php echo e($property->title); ?>
+
+                                                </option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
+                                        <?php $__errorArgs = ['property_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+
+                                    <div class="col-span-6">
+                                        <label for="message" class="block text-sm font-medium text-gray-700">
+                                            Message
+                                        </label>
+                                        <textarea name="message" 
+                                                  id="message" 
+                                                  rows="6" 
+                                                  class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md <?php $__errorArgs = ['message'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-300 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"><?php echo e(old('message')); ?></textarea>
+                                        <?php $__errorArgs = ['message'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-6 border-t">
+                        <a href="<?php echo e(route('admin.messages.index')); ?>"
+                           class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Annuler
+                        </a>
+                        <button type="submit"
+                                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Créer le message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\HorizonImmo\resources\views\admin\messages\create.blade.php ENDPATH**/ ?>

@@ -19,9 +19,41 @@
                         <svg class="w-8 h-8 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v10a2 2 0 002 2z"/>
                         </svg>
-                        <h2 class="text-2xl font-bold text-gray-900">Envoyez-nous un message</h2>
+                        <h2 class="text-2xl font-bold text-gray-900">
+                            @if($property)
+                                Question sur la propriété
+                            @else
+                                Envoyez-nous un message
+                            @endif
+                        </h2>
                     </div>
-                    <p class="text-gray-600 mb-8">Nous vous répondrons dans les plus brefs délais</p>
+
+                    @if($property)
+                        <!-- Informations sur la propriété -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                            <div class="flex items-start space-x-4">
+                                @if($property->images && count($property->images) > 0)
+                                    <img src="{{ $property->images[0] }}" alt="{{ $property->title }}" class="w-16 h-16 rounded-lg object-cover">
+                                @else
+                                    <div class="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">{{ $property->title }}</h3>
+                                    <p class="text-sm text-gray-600">{{ $property->city }} • {{ $property->formatted_price }}</p>
+                                    <a href="{{ route('property.detail', $property->id) }}" class="text-blue-600 hover:text-blue-800 text-sm">
+                                        Voir les détails de cette propriété →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-8">Posez votre question concernant cette propriété, nous vous répondrons rapidement.</p>
+                    @else
+                        <p class="text-gray-600 mb-8">Nous vous répondrons dans les plus brefs délais</p>
+                    @endif
 
                     @if($showSuccess)
                     <div x-data="{ show: true }" x-show="show" x-transition class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
@@ -32,8 +64,20 @@
                                 </svg>
                             </div>
                             <div>
-                                <p class="font-bold">Message envoyé avec succès !</p>
-                                <p class="text-sm">Nous vous recontacterons très prochainement.</p>
+                                <p class="font-bold">
+                                    @if($property)
+                                        Question envoyée avec succès !
+                                    @else
+                                        Message envoyé avec succès !
+                                    @endif
+                                </p>
+                                <p class="text-sm">
+                                    @if($property)
+                                        Votre question concernant cette propriété a été transmise à notre équipe.
+                                    @else
+                                        Nous vous recontacterons très prochainement.
+                                    @endif
+                                </p>
                             </div>
                         </div>
                     </div>

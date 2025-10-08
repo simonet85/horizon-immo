@@ -15,7 +15,7 @@ class HomePage extends Component
             ->get();
 
         return view('livewire.home-page', [
-            'featuredProperties' => $featuredProperties
+            'featuredProperties' => $featuredProperties,
         ])->layout('layouts.site');
     }
 }

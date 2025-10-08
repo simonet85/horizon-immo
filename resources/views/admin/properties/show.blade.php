@@ -1,9 +1,10 @@
-@extends('admin.layout')
+@extends('layouts.admin')
 
 @section('title', 'Détails de la Propriété')
 
-@section('header')
-    <div class="flex justify-between items-center">
+@section('content')
+    <!-- En-tête -->
+    <div class="flex justify-between items-center mb-6">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $property->title }}
         </h2>
@@ -16,9 +17,8 @@
             </a>
         </div>
     </div>
-@endsection
 
-@section('content')
+    <!-- Contenu principal -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Images -->
         <div class="lg:col-span-2">
@@ -78,8 +78,8 @@
 
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                        <span class="font-medium text-gray-700">Type:</span>
-                        <span class="text-gray-900 capitalize">{{ $property->type }}</span>
+                        <span class="font-medium text-gray-700">Catégorie:</span>
+                        <span class="text-gray-900">{{ $property->category ? $property->category->name : 'Non définie' }}</span>
                     </div>
                     @if($property->bedrooms)
                         <div>
