@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>{{ $title ?? 'Immobilier SA - Votre Rêve Immobilier en Afrique du Sud' }}</title>
-    
+    <title>{{ $title ?? 'ZB Investments - Votre Rêve Immobilier en Afrique du Sud' }}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/logo-zb.png">
+    <link rel="shortcut icon" type="image/png" href="/images/logo-zb.png">
+    <link rel="apple-touch-icon" href="/images/logo-zb.png">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -41,18 +46,15 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="/" class="flex items-center">
-                        <div class="bg-blue-900 text-white p-2 rounded-lg mr-3">
-                            <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                            </svg>
-                        </div>
-                        <span class="font-bold text-xl text-blue-900">Immobilier SA</span>
+                        <img src="/images/logo-zb.png" alt="ZB Investments" class="h-12 w-auto mr-3">
+                        <span class="font-bold text-xl text-blue-900">ZB Investments</span>
                     </a>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="/" class="text-gray-700 hover:text-blue-900 font-medium">Accueil</a>
-                    <a href="/nos-ventes" class="text-gray-700 hover:text-blue-900 font-medium">Nos Ventes</a>
+                    <a href="/a-propos" class="text-gray-700 hover:text-blue-900 font-medium">À propos</a>
+                    <!-- <a href="/nos-ventes" class="text-gray-700 hover:text-blue-900 font-medium">Nos Ventes</a> -->
                     <a href="/catalogue" class="text-gray-700 hover:text-blue-900 font-medium">Catalogue</a>
                     <a href="/contact" class="text-gray-700 hover:text-blue-900 font-medium">Contact</a>
                     <a href="/accompagnement" class="btn-primary">Consultation Gratuite</a>
@@ -73,7 +75,7 @@
         <div x-data="{ open: false }" x-on:toggle-mobile-menu.window="open = !open" x-show="open" x-transition class="md:hidden bg-white border-t">
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="/" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Accueil</a>
-                <a href="/nos-ventes" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Nos Ventes</a>
+                <a href="/a-propos" class="block px-3 py-2 text-gray-700 hover:text-blue-900">À propos</a>
                 <a href="/catalogue" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Catalogue</a>
                 <a href="/contact" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Contact</a>
                 <a href="/accompagnement" class="block px-3 py-2 bg-green-600 text-white rounded-lg m-3">Consultation Gratuite</a>
@@ -93,12 +95,8 @@
                 <!-- Company Info -->
                 <div>
                     <div class="flex items-center mb-4">
-                        <div class="bg-white text-blue-900 p-2 rounded-lg mr-3">
-                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                            </svg>
-                        </div>
-                        <span class="font-bold text-xl">Immobilier SA</span>
+                        <img src="/images/logo-zb.png" alt="ZB Investments" class="h-10 w-auto mr-3 bg-white rounded-lg p-1">
+                        <span class="font-bold text-xl">ZB Investments</span>
                     </div>
                     <p class="text-gray-300 text-sm">
                         Votre partenaire de confiance pour investir dans l'immobilier sud-africain. Expertise, accompagnement personnalisé et financement sécurisé.
@@ -130,15 +128,16 @@
                                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                             </svg>
-                            <span>contact@immobilier-sa.com</span>
+                            <span>info@zbinvestments-ci.com</span>
                         </div>
                         <div class="flex items-center">
                             <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                             </svg>
                             <div>
-                                <div>+33 1 XX XX XX XX</div>
-                                <div>+27 XXX XXX XXXX (Afrique du Sud)</div>
+                                <div>+225 07 07 69 69 14</div>
+                                <div>+225 05 45 01 01 99</div>
+                                <div>+27 65 86 87 861 (Afrique du Sud)</div>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -146,7 +145,7 @@
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
                             </svg>
                             <div>
-                                <div>Bureau France & Afrique du Sud</div>
+                                <div>Côte d'Ivoire & Afrique du Sud</div>
                                 <div class="text-sm">Sur rendez-vous uniquement</div>
                             </div>
                         </div>
@@ -181,7 +180,7 @@
             </div>
             
             <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Immobilier SA. Tous droits réservés.</p>
+                <p>&copy; 2024 zb Investments. Tous droits réservés.</p>
                 <div class="mt-2 space-x-4 text-sm">
                     <a href="#" class="hover:text-white">Mentions Légales</a>
                     <a href="#" class="hover:text-white">Confidentialité</a>

@@ -129,7 +129,6 @@ class PropertyCrudTest extends TestCase
             'bathrooms' => $property->bathrooms,
             'city' => $property->city,
             'address' => $property->address,
-            'type' => $property->type,
             'transaction_type' => $property->transaction_type,
             'status' => $property->status,
             'category_id' => $property->category_id,

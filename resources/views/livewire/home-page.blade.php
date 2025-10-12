@@ -1,4 +1,80 @@
 <div>
+    <!-- YouTube Video Modal -->
+    @if($showVideoModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 px-4 animate-fadeIn"
+         wire:click="closeVideoModal">
+        <div class="relative w-full max-w-3xl bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-2xl shadow-2xl overflow-hidden p-4 md:p-6 transform transition-all duration-300 animate-slideUp"
+             @click.stop>
+
+            <!-- Header with Close Button -->
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center mr-3">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Découvrez ZB Investments</h3>
+                        <p class="text-gray-400 text-xs">Votre partenaire immobilier en Afrique du Sud</p>
+                    </div>
+                </div>
+
+                <!-- Close Button -->
+                <button wire:click="closeVideoModal"
+                        class="bg-white hover:bg-gray-200 text-gray-900 rounded-full p-2 transition-all duration-200 shadow-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- YouTube Video Embed with Border -->
+            <div class="relative w-full bg-black rounded-xl overflow-hidden shadow-2xl border-2 border-gray-700" style="padding-bottom: 56.25%;">
+                <iframe class="absolute top-0 left-0 w-full h-full"
+                        src="https://www.youtube.com/embed/X33fSaVSnKQ?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1"
+                        title="ZB Investments - Présentation"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-gray-400 text-xs">
+                <p class="mb-2 sm:mb-0">🏡 Investissez dans votre avenir en Afrique du Sud</p>
+                <div class="flex gap-3">
+                    <a href="/catalogue" wire:click="closeVideoModal" class="text-orange-400 hover:text-orange-300 font-semibold">Voir nos biens →</a>
+                    <a href="/contact" wire:click="closeVideoModal" class="text-green-400 hover:text-green-300 font-semibold">Nous contacter →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .animate-slideUp {
+            animation: slideUp 0.4s ease-out;
+        }
+    </style>
+    @endif
+
     <!-- Hero Section -->
     <section class="relative min-h-screen">
         <!-- Background Image -->
@@ -59,6 +135,114 @@
                         </div>
                         <h3 class="text-xl font-bold mb-2">Garantie</h3>
                         <p class="text-sm opacity-90">Accompagnement sécurisé et expertise reconnue depuis plus de 10 ans</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offre Exclusive Section with Video -->
+    <section class="py-20 bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+                <!-- Left: Video -->
+                <div class="order-2 lg:order-1">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <video class="w-full h-auto"
+                               autoplay
+                               muted
+                               loop
+                               playsinline
+                               poster="/images/video-thumbnail.jpg"
+                               style="pointer-events: none;">
+                            <source src="/videos/promo-video.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="order-1 lg:order-2 text-white">
+                    <!-- Header with Icon -->
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-bold">Offre Exclusive</h2>
+                    </div>
+
+                    <!-- Benefits List -->
+                    <div class="space-y-6">
+                        <!-- Benefit 1 -->
+                        <div class="flex items-start group">
+                            <div class="flex-shrink-0 w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center mt-1 group-hover:bg-opacity-40 transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xl md:text-2xl font-semibold leading-relaxed">
+                                    <span class="font-bold">Billet d'avion offert</span> pour toute visite de bien immobilier en Afrique du Sud
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Benefit 2 -->
+                        <div class="flex items-start group">
+                            <div class="flex-shrink-0 w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center mt-1 group-hover:bg-opacity-40 transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xl md:text-2xl font-semibold leading-relaxed">
+                                    Visite guidée du bien avant tout engagement d'achat
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Benefit 3 -->
+                        <div class="flex items-start group">
+                            <div class="flex-shrink-0 w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center mt-1 group-hover:bg-opacity-40 transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xl md:text-2xl font-semibold leading-relaxed">
+                                    Accompagnement pour l'ouverture d'un compte à <span class="font-bold">Standard Bank</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Benefit 4 -->
+                        <div class="flex items-start group">
+                            <div class="flex-shrink-0 w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center mt-1 group-hover:bg-opacity-40 transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xl md:text-2xl font-semibold leading-relaxed">
+                                    Financement facilité : <span class="font-bold">10% d'apport initial</span> + <span class="font-bold">90% financés par la banque</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                        <a href="/catalogue"
+                           class="flex-1 bg-white hover:bg-gray-100 text-orange-600 font-bold py-4 px-6 rounded-xl text-center transition-all duration-200 shadow-lg text-lg">
+                            Découvrir nos biens
+                        </a>
+                        <a href="/contact"
+                           class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-6 rounded-xl text-center transition-all duration-200 shadow-lg text-lg">
+                            Nous contacter
+                        </a>
                     </div>
                 </div>
             </div>
@@ -256,12 +440,14 @@
                             
                             <!-- Property Details -->
                             <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                                @if($property->category)
                                 <span class="flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 001.414 1.414L2 12.414V17a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1v-4.586l.293.293a1 1 0 001.414-1.414l-9-9z"/>
                                     </svg>
-                                    {{ $property->type }}
+                                    {{ $property->category->name }}
                                 </span>
+                                @endif
                                 @if($property->bedrooms)
                                 <span class="flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">

@@ -16,24 +16,21 @@ class PropertyFactory extends Factory
      */
     public function definition(): array
     {
-        $types = ['Villa', 'Maison', 'Appartement', 'Terrain', 'Commercial'];
         $transactionTypes = ['Vente', 'Location'];
         $statuses = ['available', 'reserved', 'sold'];
-        $locations = ['Cape Town', 'Johannesburg', 'Durban', 'Pretoria', 'Port Elizabeth', 'Stellenbosch', 'Franschhoek', 'Hermanus'];
-
-        $type = fake()->randomElement($types);
+        $locations = ['Douala', 'Yaoundé', 'Bafoussam', 'Garoua', 'Bamenda', 'Maroua', 'Ngaoundéré', 'Bertoua'];
 
         return [
             'title' => fake()->sentence(3),
             'description' => fake()->paragraphs(3, true),
-            'price' => fake()->numberBetween(500000, 5000000),
-            'type' => $type,
+            'price' => fake()->numberBetween(25000000, 500000000), // 25M to 500M FCFA
+            'currency' => 'FCFA',
             'transaction_type' => fake()->randomElement($transactionTypes),
             'city' => fake()->randomElement($locations),
             'address' => fake()->address(),
             'surface_area' => fake()->numberBetween(50, 500),
-            'bedrooms' => $type === 'Terrain' ? null : fake()->numberBetween(1, 6),
-            'bathrooms' => $type === 'Terrain' ? null : fake()->numberBetween(1, 4),
+            'bedrooms' => fake()->numberBetween(1, 6),
+            'bathrooms' => fake()->numberBetween(1, 4),
             'status' => fake()->randomElement($statuses),
             'category_id' => \App\Models\Category::factory(),
             'images' => [

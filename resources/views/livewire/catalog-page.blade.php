@@ -21,16 +21,15 @@
                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
 
-                    <!-- Type Filter -->
+                    <!-- Category Filter -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Type de bien</label>
-                        <select wire:model.live="selectedType" 
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                        <select wire:model.live="selectedCategoryId"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Tous les types</option>
-                            <option value="Appartement">Appartement</option>
-                            <option value="Villa">Villa</option>
-                            <option value="Maison">Maison</option>
-                            <option value="Penthouse">Penthouse</option>
+                            <option value="">Toutes les catégories</option>
+                            @foreach(\App\Models\Category::all() as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -51,15 +50,15 @@
 
                     <!-- Price Range -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Budget (ZAR)</label>
-                        <select wire:model.live="priceRange" 
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Budget (FCFA)</label>
+                        <select wire:model.live="priceRange"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="">Tous les prix</option>
-                            <option value="0-1000000">Moins de 1M ZAR</option>
-                            <option value="1000000-2000000">1M - 2M ZAR</option>
-                            <option value="2000000-3000000">2M - 3M ZAR</option>
-                            <option value="3000000-5000000">3M - 5M ZAR</option>
-                            <option value="5000000-999999999">Plus de 5M ZAR</option>
+                            <option value="0-50000000">Moins de 50M FCFA</option>
+                            <option value="50000000-100000000">50M - 100M FCFA</option>
+                            <option value="100000000-200000000">100M - 200M FCFA</option>
+                            <option value="200000000-300000000">200M - 300M FCFA</option>
+                            <option value="300000000-999999999999">Plus de 300M FCFA</option>
                         </select>
                     </div>
 
@@ -197,7 +196,9 @@
                         </div>
                         
                         <div class="flex justify-between items-center">
-                            <span class="text-sm text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full">{{ $property->type }}</span>
+                            @if($property->category)
+                            <span class="text-sm text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full">{{ $property->category->name }}</span>
+                            @endif
                             <div class="flex space-x-2">
                                 <button class="p-2 text-gray-400 hover:text-red-500 transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

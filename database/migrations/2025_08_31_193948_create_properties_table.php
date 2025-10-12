@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 12, 2);
-            $table->string('currency', 3)->default('ZAR');
+            $table->string('currency', 4)->default('FCFA');
             $table->string('location');
             $table->string('type'); // Villa, Appartement, Maison, etc.
             $table->integer('bedrooms')->nullable();

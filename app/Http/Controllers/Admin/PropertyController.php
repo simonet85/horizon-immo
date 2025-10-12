@@ -53,14 +53,36 @@ class PropertyController extends Controller
         ]);
 
         // Gérer l'upload des images
+        $imageUrls = [];
         if ($request->hasFile('images')) {
-            $imageUrls = [];
             foreach ($request->file('images') as $image) {
-                $path = $image->store('properties', 'public');
-                $imageUrls[] = '/storage/'.$path;
+                // Vérifier que l'image n'est pas null et est valide
+                if ($image && $image->isValid()) {
+                    try {
+                        // Générer un nom de fichier unique
+                        $filename = uniqid().'_'.time().'.'.$image->getClientOriginalExtension();
+
+                        // Définir le chemin de destination
+                        $destinationPath = storage_path('app/public/properties');
+
+                        // S'assurer que le dossier existe
+                        if (! file_exists($destinationPath)) {
+                            mkdir($destinationPath, 0755, true);
+                        }
+
+                        // Déplacer le fichier uploadé
+                        $image->move($destinationPath, $filename);
+
+                        // Ajouter le chemin relatif pour le stockage en BDD
+                        $imageUrls[] = '/storage/properties/'.$filename;
+                    } catch (\Exception $e) {
+                        \Log::error('Erreur upload image: '.$e->getMessage());
+                        // Continue avec les autres images
+                    }
+                }
             }
-            $validated['images'] = $imageUrls;
         }
+        $validated['images'] = $imageUrls;
 
         Property::create($validated);
 
@@ -113,10 +135,37 @@ class PropertyController extends Controller
         if ($request->hasFile('images')) {
             $imageUrls = [];
             foreach ($request->file('images') as $image) {
-                $path = $image->store('properties', 'public');
-                $imageUrls[] = '/storage/'.$path;
+                // Vérifier que l'image n'est pas null et est valide
+                if ($image && $image->isValid()) {
+                    try {
+                        // Générer un nom de fichier unique
+                        $filename = uniqid().'_'.time().'.'.$image->getClientOriginalExtension();
+
+                        // Définir le chemin de destination
+                        $destinationPath = storage_path('app/public/properties');
+
+                        // S'assurer que le dossier existe
+                        if (! file_exists($destinationPath)) {
+                            mkdir($destinationPath, 0755, true);
+                        }
+
+                        // Déplacer le fichier uploadé
+                        $image->move($destinationPath, $filename);
+
+                        // Ajouter le chemin relatif pour le stockage en BDD
+                        $imageUrls[] = '/storage/properties/'.$filename;
+                    } catch (\Exception $e) {
+                        \Log::error('Erreur upload image lors de la mise à jour: '.$e->getMessage());
+                        // Continue avec les autres images
+                    }
+                }
             }
-            $validated['images'] = $imageUrls;
+            // Mettre à jour uniquement si des images valides ont été uploadées
+            if (! empty($imageUrls)) {
+                $validated['images'] = $imageUrls;
+            } else {
+                unset($validated['images']);
+            }
         } else {
             // Si aucune nouvelle image, garder les images existantes
             unset($validated['images']);

@@ -14,7 +14,7 @@ class CatalogPage extends Component
 
     public $selectedCity = '';
 
-    public $selectedType = '';
+    public $selectedCategoryId = '';
 
     public $selectedStatus = '';
 
@@ -27,7 +27,7 @@ class CatalogPage extends Component
     protected $queryString = [
         'search' => ['except' => ''],
         'selectedCity' => ['except' => ''],
-        'selectedType' => ['except' => ''],
+        'selectedCategoryId' => ['except' => ''],
         'selectedStatus' => ['except' => ''],
         'priceRange' => ['except' => ''],
         'sortBy' => ['except' => 'created_at'],
@@ -44,7 +44,7 @@ class CatalogPage extends Component
         $this->resetPage();
     }
 
-    public function updatedSelectedType()
+    public function updatedSelectedCategoryId()
     {
         $this->resetPage();
     }
@@ -87,7 +87,7 @@ class CatalogPage extends Component
         \Log::info('ResetFilters called');
         $this->search = '';
         $this->selectedCity = '';
-        $this->selectedType = '';
+        $this->selectedCategoryId = '';
         $this->selectedStatus = '';
         $this->priceRange = '';
         $this->sortBy = 'created_at';
@@ -120,9 +120,9 @@ class CatalogPage extends Component
             $query->where('city', $this->selectedCity);
         }
 
-        // Apply type filter
-        if ($this->selectedType) {
-            $query->where('type', $this->selectedType);
+        // Apply category filter
+        if ($this->selectedCategoryId) {
+            $query->where('category_id', $this->selectedCategoryId);
         }
 
         // Apply price range filter

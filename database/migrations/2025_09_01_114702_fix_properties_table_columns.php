@@ -42,13 +42,27 @@ return new class extends Migration
             // Restaurer l'ancienne structure
             $table->string('location')->after('price');
             $table->boolean('featured')->default(false)->after('status');
+        });
 
-            // Copier les données
+        // Copier les données seulement si les colonnes existent
+        if (Schema::hasColumn('properties', 'city')) {
             \DB::statement('UPDATE properties SET location = city');
+        }
+        if (Schema::hasColumn('properties', 'is_featured')) {
             \DB::statement('UPDATE properties SET featured = is_featured');
+        }
 
-            // Supprimer les nouvelles colonnes
-            $table->dropColumn(['city', 'address', 'is_featured']);
+        Schema::table('properties', function (Blueprint $table) {
+            // Supprimer les nouvelles colonnes si elles existent
+            if (Schema::hasColumn('properties', 'city')) {
+                $table->dropColumn('city');
+            }
+            if (Schema::hasColumn('properties', 'address')) {
+                $table->dropColumn('address');
+            }
+            if (Schema::hasColumn('properties', 'is_featured')) {
+                $table->dropColumn('is_featured');
+            }
         });
     }
 };

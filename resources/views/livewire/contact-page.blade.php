@@ -153,8 +153,8 @@
                                 </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-900 mb-1">Adresse</h4>
-                                    <p class="text-gray-600">123 Rue de la République</p>
-                                    <p class="text-gray-600">75001 Paris, France</p>
+                                    <p class="text-gray-600">Afrique du Sud</p>
+                                    <!-- <p class="text-gray-600">75001 Paris, France</p> -->
                                 </div>
                             </div>
 
@@ -167,8 +167,9 @@
                                 </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-900 mb-1">Téléphone</h4>
-                                    <p class="text-gray-600">+33 1 XX XX XX XX</p>
-                                    <p class="text-gray-600">+27 XXX XXX XXXX (Afrique du Sud)</p>
+                                    <p class="text-gray-600">+225 07 07 69 69 14</p>
+                                    <p class="text-gray-600">+225 05 45 01 01 99</p>
+                                    <p class="text-gray-600">+27 65 86 87 861 (Afrique du Sud)</p>
                                 </div>
                             </div>
 
@@ -181,8 +182,8 @@
                                 </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-900 mb-1">Email</h4>
-                                    <p class="text-gray-600">contact@immobilier-sa.com</p>
-                                    <p class="text-gray-600">mr.gnual@immobilier-sa.com</p>
+                                    <p class="text-gray-600">info@zbinvestments-ci.com</p>
+                                    <!-- <p class="text-gray-600">mr.gnual@immobilier-sa.com</p> -->
                                 </div>
                             </div>
 

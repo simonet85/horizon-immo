@@ -60,18 +60,18 @@ class ContactMessageReceived extends Notification implements ShouldQueue
                 ->line('Notre équipe va examiner votre demande et vous répondra dans les plus brefs délais.')
                 ->action('Voir la propriété', url('/propriete/'.$this->propertyMessage->property_id))
                 ->line('Vous pouvez également nous contacter directement :')
-                ->line('📧 Email : contact@horizonimmo.com')
+                ->line('📧 Email : info@zbinvestments-ci.com')
                 ->line('📞 Téléphone : +27 (0) 11 123 4567')
                 ->salutation('Cordialement, L\'équipe Horizon Immo');
         } else {
             return $mailMessage
-                ->subject('Confirmation de votre message - Horizon Immo')
+                ->subject('Confirmation de votre message - ZB Investments')
                 ->greeting('Bonjour '.$this->contactMessage->full_name.' !')
                 ->line('Nous avons bien reçu votre message concernant : "'.$this->contactMessage->subject.'"')
                 ->line('Notre équipe va examiner votre demande et vous répondra dans les plus brefs délais.')
                 ->action('Découvrir nos propriétés', url('/catalogue'))
                 ->line('Vous pouvez également nous contacter directement :')
-                ->line('📧 Email : contact@horizonimmo.com')
+                ->line('📧 Email : info@zbinvestments-ci.com')
                 ->line('📞 Téléphone : +27 (0) 11 123 4567')
                 ->salutation('Cordialement, L\'équipe Horizon Immo');
         }

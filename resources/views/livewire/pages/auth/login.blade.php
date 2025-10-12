@@ -63,17 +63,17 @@ new #[Layout('layouts.guest')] class extends Component
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
                     </svg>
                 </div>
-                <input 
-                    wire:model.live="form.email" 
-                    id="email" 
-                    type="email" 
-                    name="email" 
-                    class="block w-full pl-12 pr-12 py-4 border {{ $errors->get('form.email') ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white' }} rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" 
+                <input
+                    wire:model="form.email"
+                    id="email"
+                    type="email"
+                    name="email"
+                    class="block w-full pl-12 pr-12 py-4 border {{ $errors->get('form.email') ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white' }} rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="votre.email@exemple.com"
-                    required 
-                    autofocus 
+                    required
+                    autofocus
                     autocomplete="username"
-                    wire:loading.attr="disabled" 
+                    wire:loading.attr="disabled"
                 />
                 @if(!$errors->get('form.email') && $form->email && filter_var($form->email, FILTER_VALIDATE_EMAIL))
                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
@@ -104,16 +104,16 @@ new #[Layout('layouts.guest')] class extends Component
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                     </svg>
                 </div>
-                <input 
-                    wire:model.live="form.password" 
-                    id="password" 
-                    type="password" 
+                <input
+                    wire:model="form.password"
+                    id="password"
+                    type="password"
                     name="password"
-                    class="block w-full pl-12 pr-12 py-4 border {{ $errors->get('form.password') ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white' }} rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" 
+                    class="block w-full pl-12 pr-12 py-4 border {{ $errors->get('form.password') ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white' }} rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="••••••••••••"
-                    required 
+                    required
                     autocomplete="current-password"
-                    wire:loading.attr="disabled" 
+                    wire:loading.attr="disabled"
                 />
                 <button type="button" 
                         class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"

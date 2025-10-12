@@ -74,7 +74,7 @@
 
             <!-- Prix -->
             <div>
-                <label for="price" class="block text-sm font-medium text-gray-700">Prix (ZAR) *</label>
+                <label for="price" class="block text-sm font-medium text-gray-700">Prix (FCFA) *</label>
                 <input type="number" name="price" id="price" value="{{ old('price') }}" step="0.01" min="0"
                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('price') border-red-500 @enderror">
                 @error('price')
@@ -82,10 +82,23 @@
                 @enderror
             </div>
 
+            <!-- Type de transaction -->
+            <div>
+                <label for="transaction_type" class="block text-sm font-medium text-gray-700">Type de transaction</label>
+                <select name="transaction_type" id="transaction_type"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('transaction_type') border-red-500 @enderror">
+                    <option value="Vente" {{ old('transaction_type') === 'Vente' ? 'selected' : '' }}>Vente</option>
+                    <option value="Location" {{ old('transaction_type') === 'Location' ? 'selected' : '' }}>Location</option>
+                </select>
+                @error('transaction_type')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Statut -->
             <div>
                 <label for="status" class="block text-sm font-medium text-gray-700">Statut *</label>
-                <select name="status" id="status" 
+                <select name="status" id="status"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('status') border-red-500 @enderror">
                     <option value="available" {{ old('status') === 'available' ? 'selected' : '' }}>Disponible</option>
                     <option value="reserved" {{ old('status') === 'reserved' ? 'selected' : '' }}>Réservé</option>

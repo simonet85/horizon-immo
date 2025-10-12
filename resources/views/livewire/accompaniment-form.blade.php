@@ -171,15 +171,15 @@
                         </div>
 
                         <div>
-                            <label for="budget_range" class="block text-sm font-medium text-gray-700 mb-2">Budget estimé (ZAR) *</label>
-                            <select wire:model="budget_range" id="budget_range" 
+                            <label for="budget_range" class="block text-sm font-medium text-gray-700 mb-2">Budget estimé (FCFA) *</label>
+                            <select wire:model="budget_range" id="budget_range"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 <option value="">Sélectionner votre budget</option>
-                                <option value="500 000 - 1 000 000">500 000 - 1 000 000 ZAR</option>
-                                <option value="1 000 000 - 2 000 000">1 000 000 - 2 000 000 ZAR</option>
-                                <option value="2 000 000 - 5 000 000">2 000 000 - 5 000 000 ZAR</option>
-                                <option value="5 000 000 - 10 000 000">5 000 000 - 10 000 000 ZAR</option>
-                                <option value="Plus de 10 000 000">Plus de 10 000 000 ZAR</option>
+                                <option value="500 000 - 1 000 000">15 000 000 - 30 000 000 FCFA</option>
+                                <option value="1 000 000 - 2 000 000">30 000 000 - 60 000 000 FCFA</option>
+                                <option value="2 000 000 - 5 000 000">60 000 000 - 150 000 000 FCFA</option>
+                                <option value="5 000 000 - 10 000 000">150 000 000 - 300 000 000 FCFA</option>
+                                <option value="Plus de 10 000 000">Plus de 300 000 000 FCFA</option>
                             </select>
                             @error('budget_range') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
@@ -206,20 +206,20 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="monthly_income" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Revenu mensuel net (ZAR) *
+                                        Revenu mensuel net (FCFA) *
                                     </label>
-                                    <input wire:model.live="monthly_income" type="number" id="monthly_income" 
-                                           placeholder="Ex: 35000" 
+                                    <input wire:model.live="monthly_income" type="number" id="monthly_income"
+                                           placeholder="Ex: 1050000"
                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                     @error('monthly_income') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
-                                
+
                                 <div>
                                     <label for="existing_debt" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Dettes mensuelles existantes (ZAR)
+                                        Dettes mensuelles existantes (FCFA)
                                     </label>
-                                    <input wire:model.live="existing_debt" type="number" id="existing_debt" 
-                                           placeholder="Ex: 5000 (voiture, cartes crédit...)" 
+                                    <input wire:model.live="existing_debt" type="number" id="existing_debt"
+                                           placeholder="Ex: 150000 (voiture, cartes crédit...)"
                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                     @error('existing_debt') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
@@ -291,23 +291,23 @@
                                     <div class="space-y-4">
                                         <div class="flex justify-between items-center">
                                             <span class="text-gray-600">Budget moyen:</span>
-                                            <span class="font-bold text-lg">{{ number_format($this->averageBudget, 0, ',', ' ') }} ZAR</span>
+                                            <span class="font-bold text-lg">{{ number_format($this->averageBudget * 30, 0, ',', ' ') }} FCFA</span>
                                         </div>
-                                        
+
                                         <div class="flex justify-between items-center">
                                             <span class="text-gray-600">Apport personnel ({{ $personal_contribution_percentage }}%):</span>
-                                            <span class="font-bold text-green-600">{{ number_format($this->personalContributionAmount, 0, ',', ' ') }} ZAR</span>
+                                            <span class="font-bold text-green-600">{{ number_format($this->personalContributionAmount * 30, 0, ',', ' ') }} FCFA</span>
                                         </div>
-                                        
+
                                         <div class="flex justify-between items-center">
                                             <span class="text-gray-600">Montant à financer:</span>
-                                            <span class="font-bold text-blue-600">{{ number_format($this->loanAmount, 0, ',', ' ') }} ZAR</span>
+                                            <span class="font-bold text-blue-600">{{ number_format($this->loanAmount * 30, 0, ',', ' ') }} FCFA</span>
                                         </div>
-                                        
+
                                         <div class="border-t pt-4">
                                             <div class="flex justify-between items-center">
                                                 <span class="text-gray-600">Mensualité estimée:</span>
-                                                <span class="font-bold text-xl text-indigo-600">{{ number_format($this->monthlyPayment, 0, ',', ' ') }} ZAR/mois</span>
+                                                <span class="font-bold text-xl text-indigo-600">{{ number_format($this->monthlyPayment * 30, 0, ',', ' ') }} FCFA/mois</span>
                                             </div>
                                         </div>
                                     </div>

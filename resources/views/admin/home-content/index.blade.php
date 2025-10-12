@@ -806,9 +806,9 @@
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone France</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone Afrique du Sud</label>
                                 <input type="text" name="phone_france" 
-                                       value="{{ $footerContact['phone_france'] ?? '+33 1 XX XX XX XX' }}"
+                                       value="{{ $footerContact['phone_france'] ?? '+27 65 86 87 861' }}"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                             </div>
                         </div>
@@ -817,14 +817,14 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone Afrique du Sud</label>
                                 <input type="text" name="phone_south_africa" 
-                                       value="{{ $footerContact['phone_south_africa'] ?? '+27 XXXX XX XXXX (Afrique du Sud)' }}"
+                                       value="{{ $footerContact['phone_south_africa'] ?? '+27 65 86 87 861 (Afrique du Sud)' }}"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Adresse</label>
                                 <input type="text" name="address" 
-                                       value="{{ $footerContact['address'] ?? 'Bureau France & Afrique du Sud - Sur rendez-vous uniquement' }}"
+                                       value="{{ $footerContact['address'] ?? 'Bureau  Afrique du Sud - Sur rendez-vous uniquement' }}"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                             </div>
                         </div>

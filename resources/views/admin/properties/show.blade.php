@@ -81,6 +81,12 @@
                         <span class="font-medium text-gray-700">Catégorie:</span>
                         <span class="text-gray-900">{{ $property->category ? $property->category->name : 'Non définie' }}</span>
                     </div>
+                    @if($property->transaction_type)
+                        <div>
+                            <span class="font-medium text-gray-700">Type:</span>
+                            <span class="text-gray-900">{{ $property->transaction_type }}</span>
+                        </div>
+                    @endif
                     @if($property->bedrooms)
                         <div>
                             <span class="font-medium text-gray-700">Chambres:</span>

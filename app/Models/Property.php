@@ -16,7 +16,6 @@ class Property extends Model
         'currency',
         'city',
         'address',
-        'type',
         'transaction_type',
         'bedrooms',
         'bathrooms',
@@ -37,6 +36,18 @@ class Property extends Model
     public function getFormattedPriceAttribute()
     {
         return number_format($this->price, 0, ',', ' ').' '.$this->currency;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Définir automatiquement FCFA comme devise par défaut lors de la création
+        static::creating(function ($property) {
+            if (empty($property->currency)) {
+                $property->currency = 'FCFA';
+            }
+        });
     }
 
     public function getMainImageAttribute()

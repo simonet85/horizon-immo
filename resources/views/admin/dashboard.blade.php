@@ -117,7 +117,7 @@
                         </div>
                         <div class="ml-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">{{ Str::limit($property->title, 40) }}</p>
-                            <p class="text-sm text-gray-500">{{ number_format($property->price, 0, ',', ' ') }} €</p>
+                            <p class="text-sm text-gray-500">{{ number_format($property->price, 0, ',', ' ') }} FCFA</p>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium

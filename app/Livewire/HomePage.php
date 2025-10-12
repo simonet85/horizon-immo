@@ -7,6 +7,13 @@ use Livewire\Component;
 
 class HomePage extends Component
 {
+    public $showVideoModal = true;
+
+    public function closeVideoModal()
+    {
+        $this->showVideoModal = false;
+    }
+
     public function render()
     {
         $featuredProperties = Property::where('is_featured', true)

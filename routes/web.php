@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\AboutPage;
 use App\Livewire\AccompanimentForm;
 use App\Livewire\CatalogPage;
 use App\Livewire\ContactPage;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', HomePage::class)->name('home');
+Route::get('/a-propos', AboutPage::class)->name('about');
 Route::get('/contact', ContactPage::class)->name('contact');
 Route::get('/accompagnement', AccompanimentForm::class)->name('accompagnement');
 Route::get('/catalogue', CatalogPage::class)->name('catalogue');
