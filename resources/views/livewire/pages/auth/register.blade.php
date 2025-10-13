@@ -29,11 +29,17 @@ new #[Layout('layouts.guest')] class extends Component
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered($user = User::create($validated)));
+        $user = User::create($validated);
+
+        // Assign 'client' role to new user
+        $user->assignRole('client');
+
+        event(new Registered($user));
 
         Auth::login($user);
 
-        $this->redirect(RouteServiceProvider::HOME, navigate: true);
+        // Redirect to client dashboard
+        $this->redirect('/client', navigate: true);
     }
 }; ?>
 
