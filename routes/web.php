@@ -92,6 +92,24 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Routes de test pour les pages d'erreur (à supprimer en production)
+Route::get('/test-error/{code}', function ($code) {
+    switch ($code) {
+        case '404':
+            abort(404);
+        case '500':
+            abort(500);
+        case '403':
+            abort(403);
+        case '419':
+            abort(419);
+        case '429':
+            abort(429);
+        default:
+            abort(404);
+    }
+})->where('code', '[0-9]+');
+
 // Route pour servir les fichiers de storage en développement
 Route::get('/storage/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);

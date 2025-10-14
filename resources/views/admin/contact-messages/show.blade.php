@@ -137,15 +137,19 @@
                         </div>
                     @else
                         @if($contactMessage->status === 'unread')
-                            <a href="{{ route('admin.contact-messages.mark-read', $contactMessage) }}" 
-                               class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm text-center block">
-                                Marquer comme lu
-                            </a>
+                            <form method="POST" action="{{ route('admin.contact-messages.mark-read', $contactMessage) }}">
+                                @csrf
+                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
+                                    Marquer comme lu
+                                </button>
+                            </form>
                         @else
-                            <a href="{{ route('admin.contact-messages.mark-unread', $contactMessage) }}" 
-                               class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm text-center block">
-                                Marquer comme non lu
-                            </a>
+                            <form method="POST" action="{{ route('admin.contact-messages.mark-unread', $contactMessage) }}">
+                                @csrf
+                                <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm">
+                                    Marquer comme non lu
+                                </button>
+                            </form>
                         @endif
                     @endif
                     

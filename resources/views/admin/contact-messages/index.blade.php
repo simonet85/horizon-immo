@@ -78,15 +78,19 @@
                                             Voir
                                         </a>
                                         @if($message->status === 'unread')
-                                            <a href="{{ route('admin.contact-messages.mark-read', $message) }}" 
-                                               class="text-green-600 hover:text-green-800 text-sm">
-                                                Marquer lu
-                                            </a>
+                                            <form method="POST" action="{{ route('admin.contact-messages.mark-read', $message) }}" class="inline">
+                                                @csrf
+                                                <button type="submit" class="text-green-600 hover:text-green-800 text-sm">
+                                                    Marquer lu
+                                                </button>
+                                            </form>
                                         @else
-                                            <a href="{{ route('admin.contact-messages.mark-unread', $message) }}" 
-                                               class="text-yellow-600 hover:text-yellow-800 text-sm">
-                                                Non lu
-                                            </a>
+                                            <form method="POST" action="{{ route('admin.contact-messages.mark-unread', $message) }}" class="inline">
+                                                @csrf
+                                                <button type="submit" class="text-yellow-600 hover:text-yellow-800 text-sm">
+                                                    Non lu
+                                                </button>
+                                            </form>
                                         @endif
                                         <form method="POST" action="{{ route('admin.contact-messages.destroy', $message) }}" 
                                               class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">

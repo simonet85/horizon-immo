@@ -58,6 +58,7 @@
                     <a href="/catalogue" class="text-gray-700 hover:text-blue-900 font-medium">Catalogue</a>
                     <a href="/contact" class="text-gray-700 hover:text-blue-900 font-medium">Contact</a>
                     <a href="/accompagnement" class="btn-primary">Consultation Gratuite</a>
+                    <a href="/login" class="text-gray-700 hover:text-blue-900 font-medium">Connexion</a>
                 </div>
                 
                 <!-- Mobile menu button -->
@@ -79,6 +80,7 @@
                 <a href="/catalogue" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Catalogue</a>
                 <a href="/contact" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Contact</a>
                 <a href="/accompagnement" class="block px-3 py-2 bg-green-600 text-white rounded-lg m-3">Consultation Gratuite</a>
+                <a href="/login" class="block px-3 py-2 text-gray-700 hover:text-blue-900">Connexion</a>
             </div>
         </div>
     </nav>

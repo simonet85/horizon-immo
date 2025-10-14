@@ -1,66 +1,379 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏢 HorizonImmo - Plateforme Immobilière
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application Laravel 10 moderne pour la gestion immobilière, développée pour ZB Investments.
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-10.x-red.svg)
+![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Table des matières
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [À propos](#à-propos)
+- [Fonctionnalités](#fonctionnalités)
+- [Technologies utilisées](#technologies-utilisées)
+- [Installation locale](#installation-locale)
+- [Déploiement](#déploiement)
+- [Documentation](#documentation)
+- [Support](#support)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🎯 À propos
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**HorizonImmo** est une plateforme immobilière complète permettant de :
+- Présenter un catalogue de biens immobiliers
+- Gérer les demandes d'accompagnement avec simulation financière
+- Administrer le contenu du site (biens, catégories, messages)
+- Offrir une expérience utilisateur moderne avec sliders d'images et modales vidéo
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Client** : ZB Investments
+**Développement** : Octobre 2025
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ✨ Fonctionnalités
 
-### Premium Partners
+### 🌐 Partie publique (Front-office)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- **Page d'accueil dynamique**
+  - Section héro avec vidéo modale YouTube
+  - Section offre exclusive avec image de fond
+  - Sliders d'images pour les biens
+  - Tarifs en FCFA avec formatage automatique
 
-## Contributing
+- **Catalogue de biens**
+  - Filtrage par catégorie
+  - Recherche par mots-clés
+  - Détails complets avec galerie d'images
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Formulaire d'accompagnement**
+  - Simulation financière en temps réel
+  - Calcul automatique de l'apport initial et des mensualités
+  - Envoi d'email de notification
 
-## Code of Conduct
+- **Pages informatives**
+  - À propos
+  - Contact avec formulaire
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 🔐 Partie administration (Back-office)
 
-## Security Vulnerabilities
+- **Dashboard**
+  - Statistiques en temps réel
+  - Graphiques de suivi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Gestion des biens immobiliers**
+  - CRUD complet (Create, Read, Update, Delete)
+  - Upload d'images multiples
+  - Gestion des catégories
 
-## License
+- **Gestion des demandes**
+  - Messages de contact
+  - Demandes d'accompagnement avec détails financiers
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Configuration du site**
+  - Paramètres d'affichage
+  - Contenu personnalisable
+
+### 👥 Gestion des utilisateurs
+
+- **Rôles et permissions** (Spatie Laravel Permission)
+  - Admin : accès complet
+  - Client : espace client personnel
+
+- **Authentification sécurisée**
+  - Redirection automatique selon le rôle
+  - Protection CSRF
+
+---
+
+## 🛠️ Technologies utilisées
+
+### Backend
+- **Laravel 10.x** - Framework PHP
+- **MySQL** - Base de données
+- **Spatie Laravel Permission** - Gestion des rôles et permissions
+
+### Frontend
+- **Livewire** - Composants réactifs
+- **Alpine.js** - Interactivité JavaScript
+- **Tailwind CSS** - Framework CSS
+- **Vite** - Build tool moderne
+
+### Outils de développement
+- **Laragon** - Environnement de développement local (Windows)
+- **Composer** - Gestionnaire de dépendances PHP
+- **npm** - Gestionnaire de dépendances JavaScript
+- **Git** - Versioning
+
+---
+
+## 💻 Installation locale
+
+### Prérequis
+
+- PHP 8.2 ou supérieur
+- Composer
+- Node.js et npm
+- MySQL
+- Laragon (recommandé pour Windows)
+
+### Étapes d'installation
+
+```bash
+# 1. Clone le dépôt
+git clone https://github.com/simonet85/horizon-immo.git
+cd horizon-immo
+
+# 2. Installe les dépendances PHP
+composer install
+
+# 3. Installe les dépendances JavaScript
+npm install
+
+# 4. Copie le fichier .env
+cp .env.example .env
+
+# 5. Génère la clé d'application
+php artisan key:generate
+
+# 6. Configure la base de données dans .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=horizon_immo
+DB_USERNAME=root
+DB_PASSWORD=
+
+# 7. Exécute les migrations et seeders
+php artisan migrate --seed
+
+# 8. Crée le lien symbolique storage
+php artisan storage:link
+
+# 9. Compile les assets
+npm run dev
+
+# 10. Lance le serveur de développement
+php artisan serve
+```
+
+**Accès** : [http://localhost:8000](http://localhost:8000)
+
+**Comptes de test** :
+- **Admin** : admin@horizonimmo.com / password123
+- **Client** : client@horizonimmo.com / password123
+
+---
+
+## 🚀 Déploiement
+
+### Déploiement sur LWS
+
+Le projet est configuré pour un déploiement automatisé sur l'hébergement LWS.
+
+#### 📚 Guides de déploiement disponibles
+
+1. **[⚡ Démarrage rapide](QUICK_START_DEPLOY.md)** - Guide en 3 étapes pour déployer rapidement
+2. **[🚀 Guide complet Git](DEPLOIEMENT_GIT.md)** - Configuration détaillée du workflow Git
+3. **[📘 Guide LWS complet](CLAUDE.md)** - Documentation complète de déploiement sur LWS
+
+#### Workflow de déploiement
+
+```
+Laragon (Local) → Git Push → GitHub → Git Pull → LWS (Production)
+```
+
+#### Déploiement rapide (3 étapes)
+
+```bash
+# 1. Sur Laragon : Commit et push
+git add .
+git commit -m "Update: nouvelle fonctionnalité"
+git push origin main
+
+# 2. Sur LWS : Connecte-toi en SSH
+ssh zbinv2677815@ssh.cluster0XX.lws.fr
+
+# 3. Exécute le script de déploiement
+/home/laravel-app/deploy-lws.sh
+```
+
+**Déploiement automatique** : GitHub Actions configuré (optionnel)
+
+---
+
+## 📖 Documentation
+
+### Guides utilisateurs
+
+- **[Guide utilisateur client](GUIDE_UTILISATEUR_CLIENT.md)** - Pour les visiteurs et clients
+- **[Guide administrateur](GUIDE_ADMINISTRATEUR.md)** - Pour les administrateurs du site
+
+### Guides techniques
+
+- **[Configuration LWS](CLAUDE.md)** - Hébergement et configuration serveur
+- **[Déploiement Git](DEPLOIEMENT_GIT.md)** - Workflow de déploiement automatisé
+- **[Démarrage rapide](QUICK_START_DEPLOY.md)** - Guide condensé de déploiement
+
+### Documentation Laravel
+
+- [Laravel 10.x Documentation](https://laravel.com/docs/10.x)
+- [Livewire Documentation](https://laravel-livewire.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+---
+
+## 🔧 Configuration
+
+### Variables d'environnement (.env)
+
+```env
+# Application
+APP_NAME="HorizonImmo"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://horizonimmo.test
+
+# Base de données
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=horizon_immo
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Mail (production)
+MAIL_MAILER=smtp
+MAIL_HOST=mail.ton-domaine.com
+MAIL_PORT=587
+MAIL_USERNAME=contact@ton-domaine.com
+MAIL_PASSWORD=ton_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=contact@ton-domaine.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+---
+
+## 🗂️ Structure du projet
+
+```
+HorizonImmo/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/          # Contrôleurs admin
+│   │   │   └── Client/         # Contrôleurs client
+│   │   └── Middleware/
+│   └── Models/
+├── config/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── public/
+│   └── build/                  # Assets compilés
+├── resources/
+│   ├── css/
+│   ├── js/
+│   └── views/
+│       ├── admin/              # Vues administration
+│       ├── client/             # Vues espace client
+│       ├── livewire/           # Composants Livewire
+│       └── layouts/            # Templates de base
+├── routes/
+│   └── web.php                 # Routes de l'application
+├── storage/
+│   ├── app/
+│   ├── framework/
+│   └── logs/
+├── .github/
+│   └── workflows/
+│       └── deploy-to-lws.yml   # GitHub Actions
+├── deploy-lws.sh               # Script de déploiement
+├── CLAUDE.md                   # Guide LWS
+├── DEPLOIEMENT_GIT.md          # Guide Git
+├── QUICK_START_DEPLOY.md       # Guide rapide
+└── README.md                   # Ce fichier
+```
+
+---
+
+## 🧪 Tests
+
+```bash
+# Exécute les tests
+php artisan test
+
+# Avec couverture de code
+php artisan test --coverage
+```
+
+---
+
+## 🔒 Sécurité
+
+- ✅ Protection CSRF activée sur tous les formulaires
+- ✅ Authentification sécurisée avec Laravel Breeze
+- ✅ Validation des données côté serveur
+- ✅ Rôles et permissions avec Spatie Laravel Permission
+- ✅ Fichiers sensibles (.env) exclus du dépôt Git
+
+**Reporter une vulnérabilité** : Contactez [contact@zbinvestments.com](mailto:contact@zbinvestments.com)
+
+---
+
+## 🤝 Contribution
+
+Ce projet est propriétaire et développé pour ZB Investments.
+
+---
+
+## 📧 Support
+
+Pour toute question ou assistance :
+
+- **Email** : [contact@zbinvestments.com](mailto:contact@zbinvestments.com)
+- **GitHub** : [github.com/simonet85/horizon-immo](https://github.com/simonet85/horizon-immo)
+- **Documentation** : Voir les guides dans le dossier du projet
+
+---
+
+## 📝 Changelog
+
+### Version 1.0.0 (Octobre 2025)
+
+- ✅ Mise en place de l'architecture Laravel 10
+- ✅ Système d'authentification multi-rôles
+- ✅ Gestion complète des biens immobiliers
+- ✅ Formulaire d'accompagnement avec simulation
+- ✅ Administration complète
+- ✅ Sliders d'images et modales vidéo
+- ✅ Formatage des prix en FCFA
+- ✅ Templates email personnalisés
+- ✅ Guides utilisateur et administrateur
+- ✅ Workflow de déploiement automatisé
+- ✅ Configuration LWS complète
+
+---
+
+## 📄 License
+
+Ce projet est sous licence propriétaire. © 2025 ZB Investments. Tous droits réservés.
+
+---
+
+## 🙏 Remerciements
+
+- **Laravel** - Le framework PHP élégant
+- **Livewire** - Pour l'interactivité sans JavaScript
+- **Tailwind CSS** - Pour le design moderne
+- **LWS** - Hébergeur français de confiance
+
+---
+
+## 🚀 Développé avec ❤️ par l'équipe ZB Investments
+
+**Site web** : [www.zbinvestments.com](https://www.zbinvestments.com)
+**Date** : Octobre 2025

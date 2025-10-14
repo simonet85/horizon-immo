@@ -1,0 +1,44 @@
+name: Deploy to LWS Production
+
+on:
+  push:
+    branches:
+      - main  # Déploie automatiquement lors d'un push sur main
+  workflow_dispatch:  # Permet le déploiement manuel depuis l'interface GitHub
+
+jobs:
+  deploy:
+    name: Deploy to LWS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🚀 Deploy to LWS via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.LWS_SSH_HOST }}
+          username: ${{ secrets.LWS_SSH_USER }}
+          password: ${{ secrets.LWS_SSH_PASSWORD }}
+          port: 22
+          script_stop: true  # Arrête si une commande échoue
+          script: |
+            echo "🚀 Démarrage du déploiement HorizonImmo..."
+
+            # Aller dans le dossier du projet
+            cd /home/laravel-app
+
+            # Exécuter le script de déploiement
+            chmod +x deploy-lws.sh
+            ./deploy-lws.sh
+
+            echo "✅ Déploiement terminé!"
+
+      - name: 📧 Notification de succès
+        if: success()
+        run: echo "✅ Déploiement réussi sur LWS"
+
+      - name: ❌ Notification d'échec
+        if: failure()
+        run: echo "❌ Échec du déploiement sur LWS"
