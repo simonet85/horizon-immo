@@ -1,0 +1,145 @@
+==============================================
+FICHIERS À UPLOADER SUR LWS - Mise à Jour
+==============================================
+
+📅 Date: 16 Octobre 2025
+🔄 Commits: f30a694, a36ce82, df3a5c1, 01e2e9d, 13a7af3, 77641e2
+
+==============================================
+PRIORITÉ 1 - FICHIERS ESSENTIELS (OBLIGATOIRES)
+==============================================
+
+📁 Models → /home/laravel-app/app/Models/
+✅ ContactMessage.php
+✅ Property.php
+✅ Town.php
+
+📁 Controllers → /home/laravel-app/app/Http/Controllers/Admin/
+✅ ContactMessageController.php
+✅ PropertyController.php
+✅ TownController.php
+
+📁 Views (Admin) → /home/laravel-app/resources/views/admin/
+✅ categories/edit.blade.php
+✅ towns/edit.blade.php
+✅ towns/create.blade.php
+✅ towns/index.blade.php
+✅ contact-messages/index.blade.php
+✅ contact-messages/show.blade.php
+✅ dashboard.blade.php
+✅ properties/create.blade.php
+✅ properties/edit.blade.php
+
+📁 Views (Erreurs) → /home/laravel-app/resources/views/errors/
+✅ 503.blade.php
+
+📁 Views (Layouts) → /home/laravel-app/resources/views/layouts/
+✅ admin.blade.php
+
+📁 Views (Livewire) → /home/laravel-app/resources/views/livewire/
+✅ catalog-page.blade.php
+✅ property-detail.blade.php
+
+📁 Providers → /home/laravel-app/app/Providers/
+✅ AdminViewServiceProvider.php
+✅ RouteServiceProvider.php
+
+📁 Routes → /home/laravel-app/
+✅ routes/web.php
+
+==============================================
+PRIORITÉ 2 - NOUVEAUX FICHIERS (SI PAS ENCORE DÉPLOYÉS)
+==============================================
+
+📁 Commands → /home/laravel-app/app/Console/Commands/
+□ FixPropertyImages.php
+□ GenerateMediaConversions.php
+
+📁 Migrations → /home/laravel-app/database/migrations/
+□ 2025_10_14_200957_create_towns_table.php
+□ 2025_10_14_202315_add_town_id_to_properties_table.php
+□ 2025_10_15_022122_make_city_nullable_in_properties_table.php
+□ 2025_10_15_215835_create_media_table.php
+
+📁 Seeders → /home/laravel-app/database/seeders/
+□ TownSeeder.php
+□ CategorySeeder.php
+□ PropertySeeder.php
+
+📁 Factories → /home/laravel-app/database/factories/
+□ ContactMessageFactory.php
+
+==============================================
+PRIORITÉ 3 - LIVEWIRE (FONCTIONNALITÉS)
+==============================================
+
+📁 Livewire → /home/laravel-app/app/Livewire/
+□ AccompanimentForm.php
+□ CatalogPage.php
+□ PropertyDetail.php
+
+📁 Livewire Forms → /home/laravel-app/app/Livewire/Forms/
+□ UpdateAvatarForm.php
+
+==============================================
+OPTIONNEL - TESTS (NON NÉCESSAIRE EN PRODUCTION)
+==============================================
+
+📁 Tests → /home/laravel-app/tests/Feature/
+□ ContactMessageBadgeTest.php
+□ PropertyTest.php
+□ Avatar*.php (tous les tests avatar)
+□ StorageRouteTest.php
+
+==============================================
+UTILITAIRES - CACHE & DEBUG
+==============================================
+
+📁 Racine → /htdocs/ (UPLOADER TEMPORAIREMENT)
+⚠️ clear-cache-lws.php
+   → Uploader
+   → Exécuter via navigateur: https://horizonimmo.com/clear-cache-lws.php
+   → SUPPRIMER IMMÉDIATEMENT après usage !
+
+==============================================
+⚠️ APRÈS L'UPLOAD - ÉTAPES OBLIGATOIRES
+==============================================
+
+1. ✅ Vider les caches Laravel:
+   - Via clear-cache-lws.php (puis supprimer le fichier)
+   - OU via SSH: php artisan config:clear && php artisan cache:clear && php artisan view:clear
+
+2. ✅ Exécuter les migrations (si nouvelles):
+   - Via SSH: php artisan migrate --force
+
+3. ✅ Vérifier les permissions:
+   - storage/ → 775
+   - bootstrap/cache/ → 775
+
+4. ✅ Tester les fonctionnalités:
+   - Badge messages contact
+   - Édition catégories (bouton Enregistrer)
+   - Édition villes (bouton Enregistrer)
+   - Actions marquer lu/non lu
+
+==============================================
+📊 RÉSUMÉ DU COMPTAGE
+==============================================
+
+Fichiers Priorité 1 (Essentiels): 21 fichiers
+Fichiers Priorité 2 (Nouveaux): 10 fichiers
+Fichiers Priorité 3 (Livewire): 4 fichiers
+Tests (Optionnel): 10 fichiers
+Utilitaires: 1 fichier
+
+TOTAL RECOMMANDÉ À UPLOADER: ~35 fichiers
+
+==============================================
+🔗 GUIDES COMPLETS
+==============================================
+
+📖 Guide détaillé: GUIDE_MISE_A_JOUR_LWS.md
+📋 Checklist rapide: UPDATE_CHECKLIST.md
+🚀 Déploiement initial: CLAUDE.md
+
+==============================================
