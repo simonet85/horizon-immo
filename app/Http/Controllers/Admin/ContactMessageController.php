@@ -18,8 +18,8 @@ class ContactMessageController extends Controller
 
     public function show(ContactMessage $contactMessage)
     {
-        // Marquer comme lu
-        if ($contactMessage->status === 'unread') {
+        // Marquer comme lu si le message est nouveau ou non lu
+        if (in_array($contactMessage->status, ['new', 'unread'])) {
             $contactMessage->update(['status' => 'read']);
         }
 

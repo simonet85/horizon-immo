@@ -176,7 +176,7 @@
                             @endif
                             <p class="text-xs text-gray-400 mt-1">{{ $message->created_at->diffForHumans() }}</p>
                         </div>
-                        @if(($message->type === 'contact' && $message->status === 'unread') || 
+                        @if(($message->type === 'contact' && in_array($message->status, ['new', 'unread'])) ||
                             ($message->type === 'property' && !$message->is_read))
                             <div class="flex-shrink-0">
                                 <span class="inline-block w-2 h-2 bg-red-500 rounded-full"></span>

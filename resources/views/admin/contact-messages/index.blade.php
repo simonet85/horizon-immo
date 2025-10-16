@@ -62,7 +62,7 @@
                                     <h3 class="font-medium text-gray-900">
                                         {{ $message->full_name }}
                                     </h3>
-                                    @if($message->status === 'unread')
+                                    @if(in_array($message->status, ['new', 'unread']))
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                             Non lu
                                         </span>
@@ -73,11 +73,11 @@
                                         {{ $message->created_at->diffForHumans() }}
                                     </span>
                                     <div class="flex items-center space-x-1">
-                                        <a href="{{ route('admin.contact-messages.show', $message) }}" 
+                                        <a href="{{ route('admin.contact-messages.show', $message) }}"
                                            class="text-blue-600 hover:text-blue-800 text-sm">
                                             Voir
                                         </a>
-                                        @if($message->status === 'unread')
+                                        @if(in_array($message->status, ['new', 'unread']))
                                             <form method="POST" action="{{ route('admin.contact-messages.mark-read', $message) }}" class="inline">
                                                 @csrf
                                                 <button type="submit" class="text-green-600 hover:text-green-800 text-sm">

@@ -16,7 +16,7 @@
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                         Répondu le {{ $contactMessage->responded_at->format('d/m/Y à H:i') }}
                     </span>
-                @elseif($contactMessage->status === 'unread')
+                @elseif(in_array($contactMessage->status, ['new', 'unread']))
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                         Non lu
                     </span>
@@ -136,7 +136,7 @@
                             Réponse envoyée le {{ $contactMessage->responded_at->format('d/m/Y à H:i') }}
                         </div>
                     @else
-                        @if($contactMessage->status === 'unread')
+                        @if(in_array($contactMessage->status, ['new', 'unread']))
                             <form method="POST" action="{{ route('admin.contact-messages.mark-read', $contactMessage) }}">
                                 @csrf
                                 <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
@@ -186,7 +186,7 @@
                             @if($contactMessage->admin_response)
                                 Répondu
                             @else
-                                {{ $contactMessage->status === 'unread' ? 'Non lu' : 'Lu' }}
+                                {{ in_array($contactMessage->status, ['new', 'unread']) ? 'Non lu' : 'Lu' }}
                             @endif
                         </span>
                     </div>
