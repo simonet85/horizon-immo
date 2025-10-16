@@ -23,7 +23,8 @@ class AdminViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Partager les compteurs de notifications avec les vues admin
-        View::composer(['layouts.admin', 'admin.*'], function ($view) {
+        // Utiliser '*' pour couvrir toutes les vues qui utilisent le layout admin
+        View::composer('layouts.admin', function ($view) {
             $unreadMessagesCount = Message::unread()->count();
             $unreadContactMessagesCount = \App\Models\ContactMessage::unread()->count();
             $pendingApplicationsCount = AccompanimentRequest::where('status', 'pending')->count();
