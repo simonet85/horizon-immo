@@ -11,15 +11,17 @@
             <p class="text-gray-600 mt-1">Créez une nouvelle propriété immobilière</p>
         </div>
         <a href="{{ route('admin.properties.index') }}" 
-           class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            Retour à la liste
-        </a>
+               class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Retour à la liste
+            </a>
     </div>
 
-    <!-- Formulaire -->
+    
+
+    <!-- Formulaire de création -->
     <div class="bg-white rounded-lg shadow-sm">
         <form action="{{ route('admin.properties.store') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
         @csrf
@@ -54,20 +56,17 @@
 
             <!-- Ville -->
             <div>
-                <label for="city" class="block text-sm font-medium text-gray-700">Ville *</label>
-                <select name="city" id="city" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('city') border-red-500 @enderror">
+                <label for="town_id" class="block text-sm font-medium text-gray-700">Ville *</label>
+                <select name="town_id" id="town_id"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('town_id') border-red-500 @enderror">
                     <option value="">Sélectionner une ville</option>
-                    <option value="Cape Town" {{ old('city') === 'Cape Town' ? 'selected' : '' }}>Le Cap</option>
-                    <option value="Johannesburg" {{ old('city') === 'Johannesburg' ? 'selected' : '' }}>Johannesburg</option>
-                    <option value="Durban" {{ old('city') === 'Durban' ? 'selected' : '' }}>Durban</option>
-                    <option value="Pretoria" {{ old('city') === 'Pretoria' ? 'selected' : '' }}>Pretoria</option>
-                    <option value="Port Elizabeth" {{ old('city') === 'Port Elizabeth' ? 'selected' : '' }}>Port Elizabeth</option>
-                    <option value="Stellenbosch" {{ old('city') === 'Stellenbosch' ? 'selected' : '' }}>Stellenbosch</option>
-                    <option value="Franschhoek" {{ old('city') === 'Franschhoek' ? 'selected' : '' }}>Franschhoek</option>
-                    <option value="Hermanus" {{ old('city') === 'Hermanus' ? 'selected' : '' }}>Hermanus</option>
+                    @foreach($towns as $town)
+                        <option value="{{ $town->id }}" {{ old('town_id') == $town->id ? 'selected' : '' }}>
+                            {{ $town->name }}
+                        </option>
+                    @endforeach
                 </select>
-                @error('city')
+                @error('town_id')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -198,6 +197,8 @@
             </button>
         </div>
         </form>
+    </div>
+
     </div>
 </div>
 @endsection

@@ -64,20 +64,17 @@
 
             <!-- Ville -->
             <div>
-                <label for="city" class="block text-sm font-medium text-gray-700">Ville *</label>
-                <select name="city" id="city" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('city') border-red-500 @enderror">
+                <label for="town_id" class="block text-sm font-medium text-gray-700">Ville *</label>
+                <select name="town_id" id="town_id"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('town_id') border-red-500 @enderror">
                     <option value="">Sélectionner une ville</option>
-                    <option value="Cape Town" {{ old('city', $property->city) === 'Cape Town' ? 'selected' : '' }}>Le Cap</option>
-                    <option value="Johannesburg" {{ old('city', $property->city) === 'Johannesburg' ? 'selected' : '' }}>Johannesburg</option>
-                    <option value="Durban" {{ old('city', $property->city) === 'Durban' ? 'selected' : '' }}>Durban</option>
-                    <option value="Pretoria" {{ old('city', $property->city) === 'Pretoria' ? 'selected' : '' }}>Pretoria</option>
-                    <option value="Port Elizabeth" {{ old('city', $property->city) === 'Port Elizabeth' ? 'selected' : '' }}>Port Elizabeth</option>
-                    <option value="Stellenbosch" {{ old('city', $property->city) === 'Stellenbosch' ? 'selected' : '' }}>Stellenbosch</option>
-                    <option value="Franschhoek" {{ old('city', $property->city) === 'Franschhoek' ? 'selected' : '' }}>Franschhoek</option>
-                    <option value="Hermanus" {{ old('city', $property->city) === 'Hermanus' ? 'selected' : '' }}>Hermanus</option>
+                    @foreach($towns as $town)
+                        <option value="{{ $town->id }}" {{ old('town_id', $property->town_id) == $town->id ? 'selected' : '' }}>
+                            {{ $town->name }}
+                        </option>
+                    @endforeach
                 </select>
-                @error('city')
+                @error('town_id')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Property;
+use App\Models\Town;
+// use App\Imports\PropertiesImport;
+// use App\Exports\PropertiesTemplateExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -27,8 +30,9 @@ class PropertyController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $towns = Town::where('is_active', true)->orderBy('name')->get();
 
-        return view('admin.properties.create', compact('categories'));
+        return view('admin.properties.create', compact('categories', 'towns'));
     }
 
     /**
@@ -41,7 +45,8 @@ class PropertyController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
-            'city' => 'required|string',
+            'town_id' => 'nullable|exists:towns,id',
+            'city' => 'nullable|string',
             'address' => 'nullable|string',
             'bedrooms' => 'nullable|integer|min:0',
             'bathrooms' => 'nullable|integer|min:0',
@@ -106,8 +111,9 @@ class PropertyController extends Controller
     public function edit(Property $property)
     {
         $categories = Category::all();
+        $towns = Town::where('is_active', true)->orderBy('name')->get();
 
-        return view('admin.properties.edit', compact('property', 'categories'));
+        return view('admin.properties.edit', compact('property', 'categories', 'towns'));
     }
 
     /**
@@ -120,7 +126,8 @@ class PropertyController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
-            'city' => 'required|string',
+            'town_id' => 'nullable|exists:towns,id',
+            'city' => 'nullable|string',
             'address' => 'nullable|string',
             'bedrooms' => 'nullable|integer|min:0',
             'bathrooms' => 'nullable|integer|min:0',
@@ -187,4 +194,6 @@ class PropertyController extends Controller
         return redirect()->route('admin.properties.index')
             ->with('success', 'Propriété supprimée avec succès.');
     }
+
+    // Bulk import methods removed
 }
