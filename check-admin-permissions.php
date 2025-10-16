@@ -7,14 +7,13 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 echo "=== Vérification des permissions pour admin@horizonimmo.com ===\n\n";
 
 $user = User::where('email', 'admin@horizonimmo.com')->first();
 
-if (!$user) {
+if (! $user) {
     echo "❌ Utilisateur non trouvé!\n";
     exit;
 }

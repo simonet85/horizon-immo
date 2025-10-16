@@ -37,13 +37,16 @@ class AccompanimentForm extends Component
 
     // Step 3: Financial Information
     public $personal_contribution_percentage = 20;
-    
+
     // Additional financial fields
     public $monthly_income = '';
+
     public $existing_debt = '';
+
     public $loan_duration = 20; // years
+
     public $interest_rate = 11.5; // South African average
-    
+
     public $showSuccess = false;
 
     protected function rules()
@@ -189,21 +192,27 @@ class AccompanimentForm extends Component
     // Financial calculation methods
     public function getBudgetMinProperty()
     {
-        if (!$this->budget_range) return 0;
-        
+        if (! $this->budget_range) {
+            return 0;
+        }
+
         $range = explode(' - ', str_replace([' ZAR', ' 000'], ['', '000'], $this->budget_range));
+
         return (int) str_replace([' ', ','], '', $range[0]);
     }
 
     public function getBudgetMaxProperty()
     {
-        if (!$this->budget_range) return 0;
-        
+        if (! $this->budget_range) {
+            return 0;
+        }
+
         if (str_contains($this->budget_range, 'Plus de')) {
             return 15000000; // Cap for calculations
         }
-        
+
         $range = explode(' - ', str_replace([' ZAR', ' 000'], ['', '000'], $this->budget_range));
+
         return isset($range[1]) ? (int) str_replace([' ', ','], '', $range[1]) : $this->getBudgetMinProperty();
     }
 
@@ -232,25 +241,35 @@ class AccompanimentForm extends Component
             return $principal / $numberOfPayments;
         }
 
-        return $principal * ($monthlyRate * pow(1 + $monthlyRate, $numberOfPayments)) / 
+        return $principal * ($monthlyRate * pow(1 + $monthlyRate, $numberOfPayments)) /
                (pow(1 + $monthlyRate, $numberOfPayments) - 1);
     }
 
     public function getAffordabilityRatioProperty()
     {
-        if (!$this->monthly_income || $this->monthly_income == 0) return 0;
-        
+        if (! $this->monthly_income || $this->monthly_income == 0) {
+            return 0;
+        }
+
         $totalDebt = $this->getMonthlyPaymentProperty() + (float) ($this->existing_debt ?? 0);
+
         return ($totalDebt / (float) $this->monthly_income) * 100;
     }
 
     public function getAffordabilityStatusProperty()
     {
         $ratio = $this->getAffordabilityRatioProperty();
-        
-        if ($ratio <= 30) return ['status' => 'excellent', 'color' => 'green', 'message' => 'Excellent profil financier'];
-        if ($ratio <= 40) return ['status' => 'good', 'color' => 'blue', 'message' => 'Profil financier solide'];
-        if ($ratio <= 50) return ['status' => 'acceptable', 'color' => 'yellow', 'message' => 'Profil acceptable'];
+
+        if ($ratio <= 30) {
+            return ['status' => 'excellent', 'color' => 'green', 'message' => 'Excellent profil financier'];
+        }
+        if ($ratio <= 40) {
+            return ['status' => 'good', 'color' => 'blue', 'message' => 'Profil financier solide'];
+        }
+        if ($ratio <= 50) {
+            return ['status' => 'acceptable', 'color' => 'yellow', 'message' => 'Profil acceptable'];
+        }
+
         return ['status' => 'risky', 'color' => 'red', 'message' => 'Profil à risque'];
     }
 

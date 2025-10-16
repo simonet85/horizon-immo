@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Storage;
                         
                         @can('categories.view')
                         <li>
-                            <a href="{{ route('admin.categories.index') }}" 
+                            <a href="{{ route('admin.categories.index') }}"
                                class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.categories.*') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100' }}">
                                 <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15.586 13H14a1 1 0 01-1-1z" clip-rule="evenodd"/>
@@ -74,7 +74,19 @@ use Illuminate\Support\Facades\Storage;
                             </a>
                         </li>
                         @endcan
-                        
+
+                        @can('categories.view')
+                        <li>
+                            <a href="{{ route('admin.towns.index') }}"
+                               class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.towns.*') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                                <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                Villes
+                            </a>
+                        </li>
+                        @endcan
+
                         @can('users.view')
                         <li>
                             <a href="{{ route('admin.users.index') }}" 

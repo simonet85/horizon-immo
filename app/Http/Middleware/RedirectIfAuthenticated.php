@@ -23,6 +23,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 $user = Auth::guard($guard)->user();
                 $redirectPath = RouteServiceProvider::getHomeForUser($user);
+
                 return redirect($redirectPath);
             }
         }

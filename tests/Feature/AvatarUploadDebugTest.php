@@ -16,7 +16,7 @@ class AvatarUploadDebugTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Créer le dossier de test
         Storage::fake('public');
     }
@@ -27,7 +27,7 @@ class AvatarUploadDebugTest extends TestCase
         // Créer un utilisateur
         $user = User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
 
         // Authentifier l'utilisateur
@@ -54,11 +54,11 @@ class AvatarUploadDebugTest extends TestCase
         // Debug: Afficher les informations
         $this->addToAssertionCount(1); // Pour éviter l'erreur "no assertions"
         echo "\n=== AVATAR UPLOAD DEBUG ===\n";
-        echo "User ID: " . $user->id . "\n";
-        echo "User Avatar Path: " . $user->avatar . "\n";
-        echo "Full Storage Path: " . Storage::disk('public')->path($user->avatar) . "\n";
-        echo "Public URL: " . Storage::disk('public')->url($user->avatar) . "\n";
-        echo "File exists: " . (Storage::disk('public')->exists($user->avatar) ? 'YES' : 'NO') . "\n";
+        echo 'User ID: '.$user->id."\n";
+        echo 'User Avatar Path: '.$user->avatar."\n";
+        echo 'Full Storage Path: '.Storage::disk('public')->path($user->avatar)."\n";
+        echo 'Public URL: '.Storage::disk('public')->url($user->avatar)."\n";
+        echo 'File exists: '.(Storage::disk('public')->exists($user->avatar) ? 'YES' : 'NO')."\n";
         echo "==========================\n";
     }
 
@@ -68,7 +68,7 @@ class AvatarUploadDebugTest extends TestCase
         // Créer un utilisateur avec avatar
         $user = User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
 
         // Simuler un avatar existant
@@ -86,9 +86,9 @@ class AvatarUploadDebugTest extends TestCase
 
         // Debug: Vérifier l'URL générée
         echo "\n=== AVATAR DISPLAY DEBUG ===\n";
-        echo "Avatar Path: " . $avatarPath . "\n";
-        echo "Storage URL: " . Storage::url($avatarPath) . "\n";
-        echo "Expected URL: /storage/" . $avatarPath . "\n";
+        echo 'Avatar Path: '.$avatarPath."\n";
+        echo 'Storage URL: '.Storage::url($avatarPath)."\n";
+        echo 'Expected URL: /storage/'.$avatarPath."\n";
         echo "==========================\n";
     }
 
@@ -99,7 +99,7 @@ class AvatarUploadDebugTest extends TestCase
         $user = User::factory()->create([
             'name' => 'Jean Michel Dupont',
             'email' => 'test@example.com',
-            'avatar' => null
+            'avatar' => null,
         ]);
 
         // Authentifier l'utilisateur
@@ -107,17 +107,17 @@ class AvatarUploadDebugTest extends TestCase
 
         // Tester le composant
         $component = Livewire::test(\App\Livewire\Forms\UpdateAvatarForm::class);
-        
+
         // Vérifier que les initiales sont affichées
         $initials = $component->instance()->getUserInitials();
         $this->assertEquals('JMD', $initials);
-        
+
         $component->assertSee($initials)
-                  ->assertSee('Vous n\'avez pas encore de photo de profil');
+            ->assertSee('Vous n\'avez pas encore de photo de profil');
 
         echo "\n=== INITIALS DEBUG ===\n";
-        echo "User Name: " . $user->name . "\n";
-        echo "Generated Initials: " . $initials . "\n";
+        echo 'User Name: '.$user->name."\n";
+        echo 'Generated Initials: '.$initials."\n";
         echo "===================\n";
     }
 
@@ -165,7 +165,7 @@ class AvatarUploadDebugTest extends TestCase
 
         // Vérifier que l'ancien fichier a été supprimé
         Storage::disk('public')->assertMissing($oldAvatarPath);
-        
+
         // Vérifier que le nouveau fichier existe
         $user->refresh();
         Storage::disk('public')->assertExists($user->avatar);
@@ -201,19 +201,19 @@ class AvatarUploadDebugTest extends TestCase
         $this->withoutFaking();
 
         echo "\n=== STORAGE CONFIGURATION DEBUG ===\n";
-        echo "Storage public disk path: " . Storage::disk('public')->path('') . "\n";
-        echo "Storage public disk URL: " . Storage::disk('public')->url('') . "\n";
-        echo "Public path exists: " . (file_exists(public_path('storage')) ? 'YES' : 'NO') . "\n";
-        echo "Public storage is symlink: " . (is_link(public_path('storage')) ? 'YES' : 'NO') . "\n";
-        
+        echo 'Storage public disk path: '.Storage::disk('public')->path('')."\n";
+        echo 'Storage public disk URL: '.Storage::disk('public')->url('')."\n";
+        echo 'Public path exists: '.(file_exists(public_path('storage')) ? 'YES' : 'NO')."\n";
+        echo 'Public storage is symlink: '.(is_link(public_path('storage')) ? 'YES' : 'NO')."\n";
+
         if (is_link(public_path('storage'))) {
-            echo "Symlink target: " . readlink(public_path('storage')) . "\n";
+            echo 'Symlink target: '.readlink(public_path('storage'))."\n";
         }
-        
-        echo "Avatars directory exists: " . (Storage::disk('public')->exists('avatars') ? 'YES' : 'NO') . "\n";
-        echo "Avatars directory writable: " . (is_writable(Storage::disk('public')->path('avatars')) ? 'YES' : 'NO') . "\n";
+
+        echo 'Avatars directory exists: '.(Storage::disk('public')->exists('avatars') ? 'YES' : 'NO')."\n";
+        echo 'Avatars directory writable: '.(is_writable(Storage::disk('public')->path('avatars')) ? 'YES' : 'NO')."\n";
         echo "===================================\n";
-        
+
         $this->assertTrue(true); // Pour que le test passe
     }
 

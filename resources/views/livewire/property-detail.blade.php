@@ -43,7 +43,7 @@
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div class="text-center text-white">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">{{ $property->title }}</h1>
-                <p class="text-xl md:text-2xl opacity-90">{{ $property->city }}</p>
+                <p class="text-xl md:text-2xl opacity-90">{{ $property->town ? $property->town->name : $property->city }}</p>
             </div>
         </div>
     </div>
@@ -156,9 +156,28 @@
                         </a>
                     </div>
 
-                    <!-- Informations de Contact -->
+                    <!-- Informations de Contact
+                     +225 0707 6969 14
+                     +225 0545 0101 99
+                     +27 65 868 7861
+                     -->
                     <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h4 class="font-semibold text-gray-900 mb-4">Horizon Immo</h4>
+                        <h4 class="font-semibold text-gray-900 mb-4">zb investments</h4>
+                        <div class="space-y-3 text-sm text-gray-600">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                               Côte d'Ivoire
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                </svg>
+                             +225 0707 6969 14
+                             +225 0545 0101 99
+                            </div>
+                        </div>
                         <div class="space-y-3 text-sm text-gray-600">
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -170,7 +189,7 @@
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                                 </svg>
-                                +27 (0) 11 123 4567
+                                +27 65 868 7861
                             </div>
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -242,7 +261,7 @@
                             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
                             </svg>
-                            {{ $similarProperty->city }}
+                            {{ $similarProperty->town ? $similarProperty->town->name : $similarProperty->city }}
                         </p>
 
                         <!-- Caractéristiques -->

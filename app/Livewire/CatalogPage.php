@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Category;
 use App\Models\Property;
+use App\Models\Town;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -115,9 +117,15 @@ class CatalogPage extends Component
             });
         }
 
-        // Apply city filter
+        // Apply city filter - Updated to use town_id
         if ($this->selectedCity) {
-            $query->where('city', $this->selectedCity);
+            // Support both old city field and new town_id
+            $query->where(function ($q) {
+                $q->where('city', $this->selectedCity)
+                    ->orWhereHas('town', function ($townQuery) {
+                        $townQuery->where('name', $this->selectedCity);
+                    });
+            });
         }
 
         // Apply category filter
@@ -138,8 +146,14 @@ class CatalogPage extends Component
 
         $properties = $query->paginate(9);
 
+        // Load towns and categories for filters
+        $towns = Town::where('is_active', true)->orderBy('name')->get();
+        $categories = Category::where('is_active', true)->orderBy('name')->get();
+
         return view('livewire.catalog-page', [
             'properties' => $properties,
+            'towns' => $towns,
+            'categories' => $categories,
         ])->layout('layouts.site');
     }
 }

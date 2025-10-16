@@ -8,13 +8,16 @@ use Livewire\Component;
 class PropertyDetail extends Component
 {
     public Property $property;
+
     public $currentImageIndex = 0;
+
     public $showGalleryModal = false;
+
     public $modalImageIndex = 0;
 
     public function mount($id)
     {
-        $this->property = Property::findOrFail($id);
+        $this->property = Property::with('town', 'category')->findOrFail($id);
     }
 
     public function nextImage()
@@ -73,8 +76,16 @@ class PropertyDetail extends Component
     public function render()
     {
         // Récupérer 3 propriétés similaires (même catégorie et ville, excluant la propriété actuelle)
-        $similarProperties = Property::where('category_id', $this->property->category_id)
-            ->where('city', $this->property->city)
+        $similarProperties = Property::with('town', 'category')
+            ->where('category_id', $this->property->category_id)
+            ->where(function ($query) {
+                // Support pour les deux systèmes : ancien champ city et nouvelle relation town
+                if ($this->property->town_id) {
+                    $query->where('town_id', $this->property->town_id);
+                } elseif ($this->property->city) {
+                    $query->where('city', $this->property->city);
+                }
+            })
             ->where('id', '!=', $this->property->id)
             ->where('status', 'available')
             ->take(3)
@@ -82,7 +93,8 @@ class PropertyDetail extends Component
 
         // Si on n'a pas assez de propriétés similaires par ville, compléter avec la même catégorie
         if ($similarProperties->count() < 3) {
-            $additionalProperties = Property::where('category_id', $this->property->category_id)
+            $additionalProperties = Property::with('town', 'category')
+                ->where('category_id', $this->property->category_id)
                 ->where('id', '!=', $this->property->id)
                 ->whereNotIn('id', $similarProperties->pluck('id'))
                 ->where('status', 'available')
@@ -94,7 +106,8 @@ class PropertyDetail extends Component
 
         // Si on n'a toujours pas assez, compléter avec n'importe quelles propriétés disponibles
         if ($similarProperties->count() < 3) {
-            $moreProperties = Property::where('id', '!=', $this->property->id)
+            $moreProperties = Property::with('town', 'category')
+                ->where('id', '!=', $this->property->id)
                 ->whereNotIn('id', $similarProperties->pluck('id'))
                 ->where('status', 'available')
                 ->take(3 - $similarProperties->count())

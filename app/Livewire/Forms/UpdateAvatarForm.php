@@ -30,8 +30,9 @@ class UpdateAvatarForm extends Component
     public function updatedAvatar(): void
     {
         // Si aucun fichier sélectionné, reset
-        if (!$this->avatar) {
+        if (! $this->avatar) {
             $this->temporaryUrl = null;
+
             return;
         }
 

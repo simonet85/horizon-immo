@@ -27,11 +27,11 @@ class RouteServiceProvider extends ServiceProvider
         if ($user && $user->hasRole('admin')) {
             return '/admin';
         }
-        
+
         if ($user && $user->hasRole('client')) {
             return '/client';
         }
-        
+
         return static::HOME;
     }
 

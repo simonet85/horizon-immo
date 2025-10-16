@@ -27,7 +27,7 @@
                         <select wire:model.live="selectedCategoryId"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="">Toutes les catégories</option>
-                            @foreach(\App\Models\Category::all() as $category)
+                            @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
@@ -36,15 +36,12 @@
                     <!-- Location Filter -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
-                        <select wire:model.live="selectedCity" 
+                        <select wire:model.live="selectedCity"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="">Toutes les villes</option>
-                            <option value="Le Cap">Le Cap</option>
-                            <option value="Johannesburg">Johannesburg</option>
-                            <option value="Durban">Durban</option>
-                            <option value="Pretoria">Pretoria</option>
-                            <option value="Stellenbosch">Stellenbosch</option>
-                            <option value="Hermanus">Hermanus</option>
+                            @foreach($towns as $town)
+                                <option value="{{ $town->name }}">{{ $town->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -161,7 +158,7 @@
                             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
                             </svg>
-                            {{ $property->location }}
+                            {{ optional($property->town)->name ?? $property->city }}
                         </p>
                         
                         <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ Str::limit($property->description, 100) }}</p>
@@ -270,6 +267,7 @@
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
