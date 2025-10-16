@@ -56,11 +56,11 @@ class ContactMessage extends Model
     }
 
     /**
-     * Scope pour les messages non lus
+     * Scope pour les messages non lus (inclut 'new' et 'unread')
      */
     public function scopeUnread($query)
     {
-        return $query->where('status', 'unread');
+        return $query->whereIn('status', ['new', 'unread']);
     }
 
     /**

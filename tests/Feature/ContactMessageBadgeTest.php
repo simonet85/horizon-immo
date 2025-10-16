@@ -82,6 +82,27 @@ class ContactMessageBadgeTest extends TestCase
         $this->assertEquals(1, ContactMessage::unread()->count());
     }
 
+    public function test_unread_scope_includes_new_status(): void
+    {
+        // Créer des messages avec différents status
+        ContactMessage::factory()->create(['status' => 'new']);
+        ContactMessage::factory()->create(['status' => 'unread']);
+        ContactMessage::factory()->create(['status' => 'read']);
+        ContactMessage::factory()->create(['status' => 'responded']);
+        ContactMessage::factory()->count(2)->create(['status' => 'new']);
+
+        // Le scope unread() doit inclure 'new' et 'unread'
+        // Donc on attend 3 messages (2 'new' + 1 'unread')
+        $this->assertEquals(4, ContactMessage::unread()->count());
+
+        // Vérifier que 'read' et 'responded' ne sont pas comptés
+        $readCount = ContactMessage::where('status', 'read')->count();
+        $respondedCount = ContactMessage::where('status', 'responded')->count();
+
+        $this->assertEquals(1, $readCount);
+        $this->assertEquals(1, $respondedCount);
+    }
+
     public function test_view_composer_provides_unread_contact_messages_count_to_admin_layout(): void
     {
         // Créer des messages non lus
