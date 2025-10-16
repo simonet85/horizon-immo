@@ -24,6 +24,7 @@ class Property extends Model
         'status',
         'is_featured',
         'category_id',
+        'town_id',
     ];
 
     protected $casts = [
@@ -58,5 +59,10 @@ class Property extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function town()
+    {
+        return $this->belongsTo(Town::class);
     }
 }

@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified', 'admin:admin'])->prefix('admin')->name('a
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('properties', \App\Http\Controllers\Admin\PropertyController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('towns', \App\Http\Controllers\Admin\TownController::class);
     Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
     Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
     Route::resource('process-steps', \App\Http\Controllers\Admin\ProcessStepController::class);
@@ -112,15 +113,15 @@ Route::get('/test-error/{code}', function ($code) {
 
 // Route pour servir les fichiers de storage en développement
 Route::get('/storage/{path}', function ($path) {
-    $fullPath = storage_path('app/public/' . $path);
-    
-    if (!file_exists($fullPath)) {
+    $fullPath = storage_path('app/public/'.$path);
+
+    if (! file_exists($fullPath)) {
         abort(404);
     }
-    
+
     $mimeType = mime_content_type($fullPath) ?: 'application/octet-stream';
     $content = file_get_contents($fullPath);
-    
+
     return response($content, 200, [
         'Content-Type' => $mimeType,
         'Cache-Control' => 'public, max-age=31536000',
