@@ -21,11 +21,7 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-© {{ date('Y') }} ZB Investments. @lang('All rights reserved.')
-
-**Contact**
-Côte d'Ivoire: +225 07 07 69 69 14 | +225 05 45 01 01 99
-Afrique du Sud: +27 65 86 87 861
+{{ $slot }}
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>

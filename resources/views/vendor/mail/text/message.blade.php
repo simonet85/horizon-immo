@@ -21,7 +21,7 @@
     {{-- Footer --}}
     <x-slot:footer>
         <x-mail::footer>
-            © {{ date('Y') }} ZB Investments. @lang('All rights reserved.')
+© {{ date('Y') }} ZB Investments. @lang('All rights reserved.')
 
 Contact
 Côte d'Ivoire: +225 07 07 69 69 14 | +225 05 45 01 01 99
