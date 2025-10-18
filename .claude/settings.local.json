@@ -5,7 +5,8 @@
       "Bash(php artisan view:clear:*)",
       "Bash(php artisan:*)",
       "Bash(del:*)",
-      "Bash(php:*)"
+      "Bash(php:*)",
+      "Bash(vendor/bin/pint:*)"
     ],
     "deny": [],
     "ask": []

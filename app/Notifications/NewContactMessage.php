@@ -38,9 +38,10 @@ class NewContactMessage extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Nouveau message de contact - Horizon Immo')
+            ->subject('Nouveau message de contact - ZB Investments')
+            ->bcc(config('mail.from.address')) // Copie vers l'email professionnel
             ->greeting('Bonjour !')
-            ->line('Un nouveau message de contact a été reçu sur le site Horizon Immo.')
+            ->line('Un nouveau message de contact a été reçu sur le site ZB Investments.')
             ->line('**Détails du message :**')
             ->line('**De :** '.$this->contactMessage->full_name)
             ->line('**Email :** '.$this->contactMessage->email)
@@ -50,7 +51,7 @@ class NewContactMessage extends Notification implements ShouldQueue
             ->line($this->contactMessage->message)
             ->action('Voir dans l\'admin', url('/admin/contact-messages/'.$this->contactMessage->id))
             ->line('Vous pouvez répondre directement à ce message en contactant le client.')
-            ->salutation('Cordialement, L\'équipe Horizon Immo');
+            ->salutation('Cordialement, L\'équipe ZB Investments');
     }
 
     /**

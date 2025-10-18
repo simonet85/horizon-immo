@@ -37,7 +37,8 @@ class AdminResponseNotification extends Notification implements ShouldQueue
         $propertyTitle = $isPropertyMessage ? $this->message->property?->title : null;
 
         $mail = (new MailMessage)
-            ->subject('Réponse à votre message - Horizon Immo')
+            ->subject('Réponse à votre message - ZB Investments')
+            ->bcc(config('mail.from.address')) // Copie vers l'email professionnel
             ->greeting('Bonjour '.$this->message->name.',')
             ->line('Nous avons bien reçu votre message et voici notre réponse :');
 
@@ -50,7 +51,7 @@ class AdminResponseNotification extends Notification implements ShouldQueue
             ->line('**Notre réponse :**')
             ->line($this->adminResponse)
             ->line('Si vous avez d\'autres questions, n\'hésitez pas à nous contacter.')
-            ->salutation('L\'équipe Horizon Immo');
+            ->salutation('L\'équipe ZB Investments');
 
         // Note: Property link temporarily disabled due to routing issues
         // Will be re-enabled once route is properly configured

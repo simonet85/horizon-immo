@@ -1,13 +1,13 @@
 <div>
     <!-- Hero Section avec Slider d'Images -->
     <div class="relative h-96 bg-gray-900">
-        @if($property->images && count($property->images) > 0)
+        @if($property->all_images && count($property->all_images) > 0)
             <!-- Image actuelle -->
-            <img src="{{ $property->images[$currentImageIndex] }}" alt="{{ $property->title }}" class="w-full h-96 object-cover transition-opacity duration-500">
+            <img src="{{ $property->all_images[$currentImageIndex] }}" alt="{{ $property->title }}" class="w-full h-96 object-cover transition-opacity duration-500">
             <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
             <!-- Bouton Précédent -->
-            @if(count($property->images) > 1)
+            @if(count($property->all_images) > 1)
             <button wire:click="previousImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm z-10">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -23,12 +23,12 @@
 
             <!-- Compteur d'images -->
             <div class="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm z-10">
-                {{ $currentImageIndex + 1 }} / {{ count($property->images) }}
+                {{ $currentImageIndex + 1 }} / {{ count($property->all_images) }}
             </div>
 
             <!-- Indicateurs points (dots) -->
             <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                @foreach($property->images as $index => $image)
+                @foreach($property->all_images as $index => $image)
                     <button wire:click="goToImage({{ $index }})"
                             class="w-3 h-3 rounded-full transition-all duration-200 {{ $currentImageIndex === $index ? 'bg-white w-8' : 'bg-white bg-opacity-50 hover:bg-opacity-75' }}">
                     </button>
@@ -122,11 +122,11 @@
                 </div>
 
                 <!-- Galerie d'Images -->
-                @if($property->images && count($property->images) > 1)
+                @if($property->all_images && count($property->all_images) > 1)
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-2xl font-bold text-gray-900 mb-4">Galerie Photos</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        @foreach($property->images as $index => $image)
+                        @foreach($property->all_images as $index => $image)
                             <img src="{{ $image }}"
                                  alt="{{ $property->title }}"
                                  wire:click="openGallery({{ $index }})"
@@ -219,8 +219,8 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
                     <!-- Image -->
                     <div class="relative h-64 overflow-hidden">
-                        @if($similarProperty->images && count($similarProperty->images) > 0)
-                            <img src="{{ $similarProperty->images[0] }}" alt="{{ $similarProperty->title }}" 
+                        @if($similarProperty->all_images && count($similarProperty->all_images) > 0)
+                            <img src="{{ $similarProperty->all_images[0] }}" alt="{{ $similarProperty->title }}" 
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
                         @else
                             <div class="w-full h-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center">
@@ -320,7 +320,7 @@
     @endif
 
     <!-- Modal Galerie avec Slider -->
-    @if($showGalleryModal && $property->images && count($property->images) > 0)
+    @if($showGalleryModal && $property->all_images && count($property->all_images) > 0)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 px-4 animate-fadeIn"
          wire:click="closeGallery">
         <div class="relative w-full max-w-6xl h-[80vh] flex items-center justify-center"
@@ -336,13 +336,13 @@
 
             <!-- Image principale -->
             <div class="relative w-full h-full flex items-center justify-center">
-                <img src="{{ $property->images[$modalImageIndex] }}"
+                <img src="{{ $property->all_images[$modalImageIndex] }}"
                      alt="{{ $property->title }}"
                      class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
             </div>
 
             <!-- Bouton Précédent -->
-            @if(count($property->images) > 1)
+            @if(count($property->all_images) > 1)
             <button wire:click="previousModalImage"
                     class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white hover:bg-gray-100 text-gray-900 p-4 rounded-full transition-all duration-200 shadow-lg z-10">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,7 +361,7 @@
 
             <!-- Compteur d'images -->
             <div class="absolute top-4 left-4 bg-white text-gray-900 px-6 py-3 rounded-full text-lg font-bold shadow-lg z-20">
-                {{ $modalImageIndex + 1 }} / {{ count($property->images) }}
+                {{ $modalImageIndex + 1 }} / {{ count($property->all_images) }}
             </div>
 
             <!-- Titre de la propriété -->
@@ -370,9 +370,9 @@
             </div>
 
             <!-- Indicateurs points (dots) -->
-            @if(count($property->images) > 1)
+            @if(count($property->all_images) > 1)
             <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 max-w-full overflow-x-auto px-4">
-                @foreach($property->images as $index => $image)
+                @foreach($property->all_images as $index => $image)
                     <button wire:click="goToModalImage({{ $index }})"
                             class="flex-shrink-0 transition-all duration-200 {{ $modalImageIndex === $index ? 'w-10 h-3 bg-white rounded-full' : 'w-3 h-3 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full' }}">
                     </button>

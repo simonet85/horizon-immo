@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Administration') - {{ config('app.name', 'HorizonImmo') }}</title>
+    <title>@yield('title', 'Administration') - {{ config('app.name', 'zb investments') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -26,7 +26,7 @@
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                             </svg>
                         </div>
-                        <span class="font-bold text-lg text-blue-900">Admin - HorizonImmo</span>
+                        <span class="font-bold text-lg text-blue-900">Admin - zb investments</span>
                     </a>
                 </div>
                 

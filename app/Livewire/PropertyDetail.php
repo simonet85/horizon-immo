@@ -22,7 +22,7 @@ class PropertyDetail extends Component
 
     public function nextImage()
     {
-        $totalImages = count($this->property->images);
+        $totalImages = count($this->property->all_images);
         if ($totalImages > 0) {
             $this->currentImageIndex = ($this->currentImageIndex + 1) % $totalImages;
         }
@@ -30,7 +30,7 @@ class PropertyDetail extends Component
 
     public function previousImage()
     {
-        $totalImages = count($this->property->images);
+        $totalImages = count($this->property->all_images);
         if ($totalImages > 0) {
             $this->currentImageIndex = ($this->currentImageIndex - 1 + $totalImages) % $totalImages;
         }
@@ -54,7 +54,7 @@ class PropertyDetail extends Component
 
     public function nextModalImage()
     {
-        $totalImages = count($this->property->images);
+        $totalImages = count($this->property->all_images);
         if ($totalImages > 0) {
             $this->modalImageIndex = ($this->modalImageIndex + 1) % $totalImages;
         }
@@ -62,7 +62,7 @@ class PropertyDetail extends Component
 
     public function previousModalImage()
     {
-        $totalImages = count($this->property->images);
+        $totalImages = count($this->property->all_images);
         if ($totalImages > 0) {
             $this->modalImageIndex = ($this->modalImageIndex - 1 + $totalImages) % $totalImages;
         }

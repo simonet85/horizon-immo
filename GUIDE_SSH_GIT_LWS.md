@@ -2,11 +2,13 @@
 
 ## 📋 Table des matières
 1. [Activer l'accès SSH sur LWS](#1-activer-laccès-ssh-sur-lws)
-2. [Se connecter en SSH](#2-se-connecter-en-ssh)
-3. [Configuration Git sur le serveur](#3-configuration-git-sur-le-serveur)
-4. [Déploiement via Git](#4-déploiement-via-git)
-5. [Script de déploiement automatisé](#5-script-de-déploiement-automatisé)
-6. [Troubleshooting](#6-troubleshooting)
+2. [Configurer les clés SSH](#2-configurer-les-clés-ssh)
+3. [Se connecter en SSH](#3-se-connecter-en-ssh)
+4. [Configuration Git sur le serveur](#4-configuration-git-sur-le-serveur)
+5. [Déploiement via Git](#5-déploiement-via-git)
+6. [Script de déploiement automatisé](#6-script-de-déploiement-automatisé)
+7. [Workflow complet de déploiement](#7-workflow-complet-de-déploiement)
+8. [Troubleshooting](#8-troubleshooting)
 
 ---
 
@@ -37,7 +39,247 @@
 
 ---
 
-## 2. Se Connecter en SSH
+## 2. Configurer les Clés SSH
+
+### Pourquoi utiliser des clés SSH ?
+
+Les clés SSH offrent une **authentification sécurisée sans mot de passe** et sont plus pratiques et sûres que les mots de passe traditionnels.
+
+**Avantages** :
+- ✅ Plus sécurisé qu'un mot de passe
+- ✅ Pas besoin de saisir le mot de passe à chaque connexion
+- ✅ Requis pour certaines opérations Git automatisées
+- ✅ Protection contre les attaques par force brute
+
+### Étape 2.1 : Générer une paire de clés SSH
+
+#### Sur Windows (PowerShell, Git Bash ou CMD)
+
+```bash
+# Générer une clé SSH avec l'algorithme ed25519 (recommandé)
+ssh-keygen -t ed25519 -C "votre.email@example.com"
+```
+
+**Explication des paramètres** :
+- `-t ed25519` : Utilise l'algorithme ed25519 (plus sécurisé et rapide)
+- `-C "votre.email@example.com"` : Ajoute un commentaire pour identifier la clé
+
+**Alternative** : Si votre système ne supporte pas ed25519, utilisez RSA :
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "votre.email@example.com"
+```
+
+#### Questions lors de la génération
+
+```bash
+Enter file in which to save the key (C:\Users\VotreNom/.ssh/id_ed25519):
+```
+→ **Appuyez sur Entrée** pour utiliser l'emplacement par défaut
+
+```bash
+Enter passphrase (empty for no passphrase):
+```
+→ **Optionnel** : Saisissez une phrase de passe pour sécuriser davantage votre clé
+→ Ou **appuyez sur Entrée** pour ne pas utiliser de phrase de passe
+
+```bash
+Enter same passphrase again:
+```
+→ Confirmez la phrase de passe (ou appuyez sur Entrée)
+
+**Résultat** :
+```
+Your identification has been saved in C:\Users\VotreNom/.ssh/id_ed25519
+Your public key has been saved in C:\Users\VotreNom/.ssh/id_ed25519.pub
+```
+
+Deux fichiers sont créés :
+- `id_ed25519` : **Clé privée** (à garder secrète, ne jamais partager)
+- `id_ed25519.pub` : **Clé publique** (à copier sur le serveur LWS)
+
+### Étape 2.2 : Afficher et copier la clé publique
+
+#### Sur Windows (PowerShell ou CMD)
+
+```bash
+# Afficher la clé publique
+cat ~/.ssh/id_ed25519.pub
+
+# Ou avec type (sur Windows CMD)
+type %USERPROFILE%\.ssh\id_ed25519.pub
+```
+
+#### Sur Linux/Mac
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+**Résultat** (exemple) :
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJq3... votre.email@example.com
+```
+
+**Copiez toute cette ligne** (du début `ssh-ed25519` jusqu'à votre email).
+
+### Étape 2.3 : Ajouter la clé publique sur LWS
+
+#### Méthode 1 : Via le panneau LWS (recommandé)
+
+1. Connectez-vous à votre [Espace Client LWS](https://panel.lws.fr)
+2. Allez dans : **Hébergement Web → SSH → Gestion des clés SSH**
+3. Cliquez sur **"Ajouter une clé SSH"**
+4. **Collez** votre clé publique (celle que vous avez copiée)
+5. Donnez un **nom** à la clé (ex: "Laragon Windows PC")
+6. Cliquez sur **"Valider"**
+
+#### Méthode 2 : Via le fichier `~/.ssh/authorized_keys` (avancé)
+
+Si vous avez déjà un accès SSH avec mot de passe :
+
+```bash
+# Copier la clé publique sur le serveur
+ssh-copy-id zbinv2677815@ssh.horizonimmo.com
+
+# Ou manuellement
+cat ~/.ssh/id_ed25519.pub | ssh zbinv2677815@ssh.horizonimmo.com "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+```
+
+### Étape 2.4 : Tester la connexion SSH avec la clé
+
+```bash
+# Tester la connexion
+ssh zbinv2677815@ssh.horizonimmo.com
+```
+
+**Si tout est correct** :
+- Vous serez connecté **sans saisir de mot de passe** (si aucune phrase de passe sur la clé)
+- Ou on vous demandera la **phrase de passe de la clé** (si vous en avez défini une)
+
+### Étape 2.5 : Configuration SSH avancée (optionnel)
+
+Pour simplifier vos connexions, créez un fichier de configuration SSH.
+
+#### Créer/Éditer le fichier `~/.ssh/config`
+
+**Sur Windows** : `C:\Users\VotreNom\.ssh\config`
+
+**Sur Linux/Mac** : `~/.ssh/config`
+
+**Contenu** :
+
+```
+# Configuration pour le serveur LWS HorizonImmo
+Host horizonimmo-lws
+    HostName ssh.horizonimmo.com
+    User zbinv2677815
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+
+# Ou avec le cluster LWS
+Host lws-cluster
+    HostName ssh.cluster0XX.lws.fr
+    User zbinv2677815
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+```
+
+**Avantages** :
+- Connexion simplifiée : `ssh horizonimmo-lws` (au lieu de `ssh zbinv2677815@ssh.horizonimmo.com`)
+- Configuration centralisée
+- Keep-alive pour éviter les déconnexions
+
+**Utilisation** :
+
+```bash
+# Connexion simplifiée
+ssh horizonimmo-lws
+
+# Se déconnecter
+exit
+```
+
+### Étape 2.6 : Sécurité des clés SSH
+
+#### ✅ Bonnes pratiques
+
+1. **Ne jamais partager votre clé privée** (`id_ed25519`)
+2. **Utiliser une phrase de passe** pour protéger votre clé privée
+3. **Sauvegarder vos clés** dans un endroit sûr (gestionnaire de mots de passe, USB chiffré)
+4. **Utiliser des clés différentes** pour différents serveurs (optionnel)
+5. **Révoquer les clés** si vous perdez l'accès à votre machine
+
+#### ❌ À éviter
+
+- ❌ Ne jamais committer vos clés privées dans Git
+- ❌ Ne jamais envoyer vos clés privées par email
+- ❌ Ne pas utiliser la même clé sur des machines partagées
+- ❌ Ne pas laisser vos clés sans protection (phrase de passe)
+
+#### Révoquer une clé compromise
+
+Si vous pensez que votre clé privée a été compromise :
+
+1. **Connectez-vous à LWS** avec mot de passe ou une autre clé
+2. **Supprimez la clé compromise** du panneau LWS (SSH → Gestion des clés)
+3. **Générez une nouvelle paire de clés** et ajoutez la nouvelle clé publique
+
+```bash
+# Sur votre machine locale
+rm ~/.ssh/id_ed25519 ~/.ssh/id_ed25519.pub
+ssh-keygen -t ed25519 -C "votre.email@example.com"
+```
+
+### Troubleshooting Clés SSH
+
+#### Problème : "Permission denied (publickey)"
+
+**Cause** : La clé publique n'est pas reconnue sur le serveur.
+
+**Solutions** :
+1. Vérifiez que la clé publique est bien ajoutée sur LWS
+2. Vérifiez que vous utilisez la bonne clé privée :
+   ```bash
+   ssh -i ~/.ssh/id_ed25519 zbinv2677815@ssh.horizonimmo.com
+   ```
+3. Vérifiez les permissions de votre clé privée :
+   ```bash
+   # Sur Linux/Mac
+   chmod 600 ~/.ssh/id_ed25519
+   chmod 644 ~/.ssh/id_ed25519.pub
+   ```
+
+#### Problème : "Bad permissions" sur Windows
+
+**Cause** : Permissions trop ouvertes sur le fichier de clé.
+
+**Solution** :
+1. Clic droit sur le fichier `id_ed25519` → **Propriétés**
+2. Onglet **Sécurité** → **Avancé**
+3. **Désactiver l'héritage** → Supprimer toutes les permissions
+4. **Ajouter** → Sélectionner votre utilisateur → Donner **Contrôle total**
+5. Cliquez sur **OK**
+
+#### Problème : Connexion réussie mais Git échoue
+
+**Cause** : Git utilise une autre clé ou n'a pas accès à la clé.
+
+**Solution** : Configurer Git pour utiliser SSH :
+
+```bash
+# Cloner avec SSH au lieu de HTTPS
+git clone git@github.com:simonet85/horizon-immo.git
+
+# Modifier l'URL remote d'un dépôt existant
+git remote set-url origin git@github.com:simonet85/horizon-immo.git
+```
+
+---
+
+## 3. Se Connecter en SSH
 
 ### Option 1 : Depuis Windows (PowerShell ou CMD)
 
@@ -99,9 +341,9 @@ pwd
 
 ---
 
-## 3. Configuration Git sur le Serveur
+## 4. Configuration Git sur le Serveur
 
-### Étape 3.1 : Vérifier si Git est installé
+### Étape 4.1 : Vérifier si Git est installé
 
 ```bash
 git --version
@@ -113,7 +355,7 @@ git --version
 # Si ce n'est pas le cas, contactez le support LWS
 ```
 
-### Étape 3.2 : Configurer Git (première fois uniquement)
+### Étape 4.2 : Configurer Git (première fois uniquement)
 
 ```bash
 # Configurer votre nom
@@ -126,7 +368,7 @@ git config --global user.email "votre.email@example.com"
 git config --list
 ```
 
-### Étape 3.3 : Se Placer dans le Bon Dossier
+### Étape 4.3 : Se Placer dans le Bon Dossier
 
 ```bash
 # Aller dans le dossier de l'application
@@ -139,7 +381,7 @@ ls -la
 
 ---
 
-## 4. Déploiement via Git
+## 5. Déploiement via Git
 
 ### Méthode 1 : Clonage Initial (Si pas encore fait)
 
@@ -201,9 +443,9 @@ git pull origin main
 
 ---
 
-## 5. Script de Déploiement Automatisé
+## 6. Script de Déploiement Automatisé
 
-### Étape 5.1 : Créer le Script de Déploiement
+### Étape 6.1 : Créer le Script de Déploiement
 
 ```bash
 # Créer le fichier de script
@@ -283,13 +525,13 @@ echo "✅ Le site est maintenant à jour et accessible."
 - Appuyez sur `Entrée` (pour confirmer)
 - Appuyez sur `Ctrl + X` (pour quitter)
 
-### Étape 5.2 : Rendre le Script Exécutable
+### Étape 6.2 : Rendre le Script Exécutable
 
 ```bash
 chmod +x /home/zbinv2677815/laravel-app/deploy.sh
 ```
 
-### Étape 5.3 : Exécuter le Script
+### Étape 6.3 : Exécuter le Script
 
 ```bash
 # Depuis le dossier laravel-app
@@ -301,7 +543,7 @@ chmod +x /home/zbinv2677815/laravel-app/deploy.sh
 
 ---
 
-## 6. Workflow Complet de Déploiement
+## 7. Workflow Complet de Déploiement
 
 ### Workflow Recommandé
 
@@ -355,7 +597,7 @@ git show --name-only commit-hash
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 ### Problème 1 : "Permission denied (publickey)"
 
@@ -441,7 +683,7 @@ ping github.com
 
 ---
 
-## 8. Sécurité et Bonnes Pratiques
+## 9. Sécurité et Bonnes Pratiques
 
 ### ✅ À Faire
 
@@ -473,7 +715,7 @@ ping github.com
 
 ---
 
-## 9. Commandes de Diagnostic Utiles
+## 10. Commandes de Diagnostic Utiles
 
 ```bash
 # Vérifier la version PHP
@@ -506,7 +748,7 @@ php artisan tinker
 
 ---
 
-## 10. Alternative : Déploiement Automatisé via GitHub Actions
+## 11. Alternative : Déploiement Automatisé via GitHub Actions
 
 Si vous voulez automatiser complètement le déploiement, vous pouvez utiliser GitHub Actions :
 

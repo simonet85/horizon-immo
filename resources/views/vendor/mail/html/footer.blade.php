@@ -7,7 +7,7 @@
     <strong style="color: #f97316;">ZB Investments</strong> - Votre partenaire immobilier en Afrique du Sud
 </p>
 <p style="color: #9ca3af; font-size: 12px; margin-bottom: 5px;">
-    📍 Afrique du Sud | 📧 info@zbinvestments-ci.com | 📞 +27 (0) 11 123 4567
+    📍 Afrique du Sud | 📧 info@zbinvestments-ci.com | 📞 +27 65 86 87 861
 </p>
 {{ Illuminate\Mail\Markdown::parse($slot) }}
 <p style="color: #9ca3af; font-size: 11px; margin-top: 15px;">

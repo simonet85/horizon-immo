@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessPropertyImages;
 use App\Models\Category;
 use App\Models\Property;
 use App\Models\Town;
-// use App\Imports\PropertiesImport;
-// use App\Exports\PropertiesTemplateExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -40,7 +39,8 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Build base validation rules
+        $rules = [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
@@ -53,46 +53,86 @@ class PropertyController extends Controller
             'surface_area' => 'nullable|numeric|min:0',
             'status' => ['required', Rule::in(['available', 'reserved', 'sold'])],
             'is_featured' => 'boolean',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        ];
 
-        // Gérer l'upload des images
-        $imageUrls = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                // Vérifier que l'image n'est pas null et est valide
+        // Only add images validation if files are actually present and valid
+        if ($request->hasFile('images') && is_array($request->file('images'))) {
+            $rules['images'] = 'nullable|array|max:10';
+
+            foreach ($request->file('images') as $index => $image) {
+                // Only validate if the image is not null and is valid
                 if ($image && $image->isValid()) {
-                    try {
-                        // Générer un nom de fichier unique
-                        $filename = uniqid().'_'.time().'.'.$image->getClientOriginalExtension();
-
-                        // Définir le chemin de destination
-                        $destinationPath = storage_path('app/public/properties');
-
-                        // S'assurer que le dossier existe
-                        if (! file_exists($destinationPath)) {
-                            mkdir($destinationPath, 0755, true);
-                        }
-
-                        // Déplacer le fichier uploadé
-                        $image->move($destinationPath, $filename);
-
-                        // Ajouter le chemin relatif pour le stockage en BDD
-                        $imageUrls[] = '/storage/properties/'.$filename;
-                    } catch (\Exception $e) {
-                        \Log::error('Erreur upload image: '.$e->getMessage());
-                        // Continue avec les autres images
-                    }
+                    $rules["images.{$index}"] = 'image|mimes:jpeg,png,jpg,gif,webp|max:10240';
                 }
             }
         }
-        $validated['images'] = $imageUrls;
 
-        Property::create($validated);
+        $validated = $request->validate($rules);
+
+        // Créer la propriété sans les images
+        unset($validated['images']);
+        $property = Property::create($validated);
+
+        // Traiter les images de manière asynchrone avec Spatie Media Library
+        if ($request->hasFile('images') && is_array($request->file('images'))) {
+            $tempPaths = [];
+
+            foreach ($request->file('images') as $index => $image) {
+                // Skip if image is null
+                if (! $image) {
+                    continue;
+                }
+
+                // Vérifier que l'image est valide et non vide
+                if ($image->isValid() && $image->getSize() > 0) {
+                    try {
+                        // Générer un nom de fichier unique avec extension
+                        $extension = $image->getClientOriginalExtension();
+
+                        // Si pas d'extension, utiliser l'extension basée sur le MIME type
+                        if (empty($extension)) {
+                            $extension = $image->extension(); // Basé sur le MIME type
+                        }
+
+                        // Si toujours pas d'extension, utiliser 'jpg' par défaut
+                        if (empty($extension)) {
+                            $extension = 'jpg';
+                        }
+
+                        $filename = uniqid('property_', true).'.'.$extension;
+
+                        // Créer le dossier temp s'il n'existe pas
+                        $tempDir = storage_path('app/temp');
+                        if (! is_dir($tempDir)) {
+                            mkdir($tempDir, 0775, true);
+                        }
+
+                        // Chemin complet du fichier de destination
+                        $destinationPath = $tempDir.'/'.$filename;
+
+                        // Déplacer le fichier avec la méthode native de Laravel
+                        $image->move($tempDir, $filename);
+                        $tempPaths[] = $destinationPath;
+                    } catch (\Exception $e) {
+                        // Log l'erreur mais continue avec les autres images
+                        \Log::error('Failed to store temp image: '.$e->getMessage(), [
+                            'index' => $index,
+                            'name' => $image->getClientOriginalName() ?? 'unknown',
+                            'size' => $image->getSize(),
+                            'extension_attempt' => $image->getClientOriginalExtension() ?? 'none',
+                        ]);
+                    }
+                }
+            }
+
+            // Dispatcher le job pour traitement asynchrone
+            if (! empty($tempPaths)) {
+                ProcessPropertyImages::dispatch($property, $tempPaths);
+            }
+        }
 
         return redirect()->route('admin.properties.index')
-            ->with('success', 'Propriété créée avec succès.');
+            ->with('success', 'Propriété créée avec succès. Les images sont en cours de traitement.');
     }
 
     /**
@@ -121,7 +161,8 @@ class PropertyController extends Controller
      */
     public function update(Request $request, Property $property)
     {
-        $validated = $request->validate([
+        // Build base validation rules
+        $rules = [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
@@ -134,51 +175,89 @@ class PropertyController extends Controller
             'surface_area' => 'nullable|numeric|min:0',
             'status' => ['required', Rule::in(['available', 'reserved', 'sold'])],
             'is_featured' => 'boolean',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+            'delete_images' => 'nullable|array',
+            'delete_images.*' => 'exists:media,id',
+        ];
 
-        // Gérer l'upload des nouvelles images
-        if ($request->hasFile('images')) {
-            $imageUrls = [];
-            foreach ($request->file('images') as $image) {
-                // Vérifier que l'image n'est pas null et est valide
+        // Only add images validation if files are actually present and valid
+        if ($request->hasFile('images') && is_array($request->file('images'))) {
+            $rules['images'] = 'nullable|array|max:10';
+
+            foreach ($request->file('images') as $index => $image) {
+                // Only validate if the image is not null and is valid
                 if ($image && $image->isValid()) {
+                    $rules["images.{$index}"] = 'image|mimes:jpeg,png,jpg,gif,webp|max:10240';
+                }
+            }
+        }
+
+        $validated = $request->validate($rules);
+
+        // Supprimer les images sélectionnées (Spatie Media Library)
+        if ($request->has('delete_images') && is_array($request->delete_images)) {
+            $property->media()->whereIn('id', $request->delete_images)->each->delete();
+        }
+
+        // Mettre à jour la propriété (sans les images)
+        unset($validated['images'], $validated['delete_images']);
+        $property->update($validated);
+
+        // Ajouter les nouvelles images
+        if ($request->hasFile('images') && is_array($request->file('images'))) {
+            $tempPaths = [];
+
+            foreach ($request->file('images') as $index => $image) {
+                // Skip if image is null
+                if (! $image) {
+                    continue;
+                }
+
+                // Vérifier que l'image est valide et non vide
+                if ($image->isValid() && $image->getSize() > 0) {
                     try {
-                        // Générer un nom de fichier unique
-                        $filename = uniqid().'_'.time().'.'.$image->getClientOriginalExtension();
+                        // Générer un nom de fichier unique avec extension
+                        $extension = $image->getClientOriginalExtension();
 
-                        // Définir le chemin de destination
-                        $destinationPath = storage_path('app/public/properties');
-
-                        // S'assurer que le dossier existe
-                        if (! file_exists($destinationPath)) {
-                            mkdir($destinationPath, 0755, true);
+                        // Si pas d'extension, utiliser l'extension basée sur le MIME type
+                        if (empty($extension)) {
+                            $extension = $image->extension(); // Basé sur le MIME type
                         }
 
-                        // Déplacer le fichier uploadé
-                        $image->move($destinationPath, $filename);
+                        // Si toujours pas d'extension, utiliser 'jpg' par défaut
+                        if (empty($extension)) {
+                            $extension = 'jpg';
+                        }
 
-                        // Ajouter le chemin relatif pour le stockage en BDD
-                        $imageUrls[] = '/storage/properties/'.$filename;
+                        $filename = uniqid('property_', true).'.'.$extension;
+
+                        // Créer le dossier temp s'il n'existe pas
+                        $tempDir = storage_path('app/temp');
+                        if (! is_dir($tempDir)) {
+                            mkdir($tempDir, 0775, true);
+                        }
+
+                        // Chemin complet du fichier de destination
+                        $destinationPath = $tempDir.'/'.$filename;
+
+                        // Déplacer le fichier avec la méthode native de Laravel
+                        $image->move($tempDir, $filename);
+                        $tempPaths[] = $destinationPath;
                     } catch (\Exception $e) {
-                        \Log::error('Erreur upload image lors de la mise à jour: '.$e->getMessage());
-                        // Continue avec les autres images
+                        // Log l'erreur mais continue avec les autres images
+                        \Log::error('Failed to store temp image: '.$e->getMessage(), [
+                            'index' => $index,
+                            'name' => $image->getClientOriginalName() ?? 'unknown',
+                            'size' => $image->getSize(),
+                            'extension_attempt' => $image->getClientOriginalExtension() ?? 'none',
+                        ]);
                     }
                 }
             }
-            // Mettre à jour uniquement si des images valides ont été uploadées
-            if (! empty($imageUrls)) {
-                $validated['images'] = $imageUrls;
-            } else {
-                unset($validated['images']);
-            }
-        } else {
-            // Si aucune nouvelle image, garder les images existantes
-            unset($validated['images']);
-        }
 
-        $property->update($validated);
+            if (! empty($tempPaths)) {
+                ProcessPropertyImages::dispatch($property, $tempPaths);
+            }
+        }
 
         return redirect()->route('admin.properties.index')
             ->with('success', 'Propriété mise à jour avec succès.');

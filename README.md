@@ -175,17 +175,43 @@ Le projet est configuré pour un déploiement automatisé sur l'hébergement LWS
 
 #### 📚 Guides de déploiement disponibles
 
-1. **[⚡ Démarrage rapide](QUICK_START_DEPLOY.md)** - Guide en 3 étapes pour déployer rapidement
-2. **[🚀 Guide complet Git](DEPLOIEMENT_GIT.md)** - Configuration détaillée du workflow Git
-3. **[📘 Guide LWS complet](CLAUDE.md)** - Documentation complète de déploiement sur LWS
+1. **[🔐 Guide SSH et Git](GUIDE_SSH_GIT_LWS.md)** - Configuration SSH et déploiement Git (Recommandé)
+2. **[📋 Comparaison des méthodes](DEPLOYMENT_METHODS.md)** - SSH, FTP, File Manager, GitHub Actions
+3. **[📁 Guide FTP](GUIDE_MISE_A_JOUR_LWS.md)** - Déploiement via FileZilla
+4. **[✅ Checklist rapide](UPDATE_CHECKLIST.md)** - Liste de vérification rapide
+5. **[📘 Guide LWS complet](CLAUDE.md)** - Documentation complète de déploiement sur LWS
 
 #### Workflow de déploiement
 
 ```
-Laragon (Local) → Git Push → GitHub → Git Pull → LWS (Production)
+Laragon (Local) → Git Push → GitHub → Git Pull (SSH) → LWS (Production)
 ```
 
-#### Déploiement rapide (3 étapes)
+### 🔐 Connexion SSH à LWS
+
+#### Configuration initiale SSH
+
+```bash
+# 1. Générer une clé SSH (si pas déjà fait)
+ssh-keygen -t ed25519 -C "votre.email@example.com"
+
+# 2. Copier la clé publique
+cat ~/.ssh/id_ed25519.pub
+
+# 3. Ajouter la clé sur LWS (Panel → SSH → Clés SSH)
+```
+
+#### Connexion au serveur
+
+```bash
+# Connexion SSH au serveur LWS
+ssh zbinv2677815@ssh.cluster0XX.lws.fr
+
+# Ou avec le domaine
+ssh zbinv2677815@ssh.horizonimmo.com
+```
+
+### ⚡ Déploiement rapide (3 étapes)
 
 ```bash
 # 1. Sur Laragon : Commit et push
@@ -194,13 +220,62 @@ git commit -m "Update: nouvelle fonctionnalité"
 git push origin main
 
 # 2. Sur LWS : Connecte-toi en SSH
-ssh zbinv2677815@ssh.cluster0XX.lws.fr
+ssh zbinv2677815@ssh.horizonimmo.com
 
 # 3. Exécute le script de déploiement
-/home/laravel-app/deploy-lws.sh
+cd /home/zbinv2677815/laravel-app
+./deploy.sh
 ```
 
+### 🔄 Déploiement manuel avec Git
+
+Si le script de déploiement n'est pas disponible :
+
+```bash
+# Se connecter en SSH
+ssh zbinv2677815@ssh.horizonimmo.com
+
+# Aller dans le dossier du projet
+cd /home/zbinv2677815/laravel-app
+
+# Récupérer les dernières modifications
+git pull origin main
+
+# Installer les dépendances
+composer install --no-dev --optimize-autoloader
+
+# Exécuter les migrations
+php artisan migrate --force
+
+# Vider les caches
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+
+# Reconstruire les caches
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+### 🤖 Déploiement automatique (GitHub Actions)
+
 **Déploiement automatique** : GitHub Actions configuré (optionnel)
+
+Le projet inclut un workflow GitHub Actions qui déploie automatiquement sur LWS à chaque push sur la branche `main`.
+
+Fichier : [`.github/workflows/deploy-to-lws.yml`](.github/workflows/deploy-to-lws.yml)
+
+#### Configuration des secrets GitHub
+
+1. Allez dans **Settings → Secrets and variables → Actions**
+2. Ajoutez les secrets suivants :
+   - `SSH_HOST` : `ssh.horizonimmo.com`
+   - `SSH_USERNAME` : `zbinv2677815`
+   - `SSH_PASSWORD` : Votre mot de passe SSH (ou clé privée)
+
+Une fois configuré, chaque push déclenchera automatiquement le déploiement.
 
 ---
 

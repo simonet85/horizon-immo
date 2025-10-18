@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Storage;
             
             <!-- Logo -->
             <div class="flex items-center justify-center h-16 px-4 bg-blue-600 text-white">
-                <h1 class="text-xl font-bold">Horizon Immo</h1>
+                <h1 class="text-xl font-bold"> zb investments </h1>
             </div>
             
             <!-- Navigation -->

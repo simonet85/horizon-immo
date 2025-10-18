@@ -3,6 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\AccompanimentRequest;
+use App\Models\Town;
+use App\Models\User;
+use App\Notifications\NewAccompanimentRequestNotification;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
 class AccompanimentForm extends Component
@@ -146,7 +150,7 @@ class AccompanimentForm extends Component
     {
         $this->validate();
 
-        AccompanimentRequest::create([
+        $request = AccompanimentRequest::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'country_residence' => $this->country_residence,
@@ -163,6 +167,10 @@ class AccompanimentForm extends Component
             'existing_debt' => $this->existing_debt,
             'loan_duration' => $this->loan_duration,
         ]);
+
+        // Envoyer notification aux administrateurs
+        $admins = User::role('admin')->get();
+        Notification::send($admins, new NewAccompanimentRequestNotification($request));
 
         $this->reset();
         $this->currentStep = 1;
@@ -273,8 +281,15 @@ class AccompanimentForm extends Component
         return ['status' => 'risky', 'color' => 'red', 'message' => 'Profil à risque'];
     }
 
+    public function getTownsProperty()
+    {
+        return Town::orderBy('name')->get();
+    }
+
     public function render()
     {
-        return view('livewire.accompaniment-form')->layout('layouts.site');
+        return view('livewire.accompaniment-form', [
+            'towns' => $this->towns,
+        ])->layout('layouts.site');
     }
 }

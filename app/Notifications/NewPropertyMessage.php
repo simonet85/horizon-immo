@@ -38,7 +38,8 @@ class NewPropertyMessage extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Nouvelle question sur une propriété - Horizon Immo')
+            ->subject('Nouvelle question sur une propriété - ZB Investments')
+            ->bcc(config('mail.from.address')) // Copie vers l'email professionnel
             ->greeting('Bonjour !')
             ->line('Une nouvelle question a été reçue concernant une propriété.')
             ->line('**Détails de la question :**')
@@ -54,7 +55,7 @@ class NewPropertyMessage extends Notification implements ShouldQueue
             ->line($this->message->message)
             ->action('Voir dans l\'admin', url('/admin/messages/'.$this->message->id))
             ->line('Vous pouvez répondre directement à cette question en contactant le client.')
-            ->salutation('Cordialement, L\'équipe Horizon Immo');
+            ->salutation('Cordialement, L\'équipe ZB Investments');
     }
 
     /**

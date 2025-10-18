@@ -32,8 +32,8 @@
                         <!-- Informations sur la propriété -->
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div class="flex items-start space-x-4">
-                                @if($property->images && count($property->images) > 0)
-                                    <img src="{{ $property->images[0] }}" alt="{{ $property->title }}" class="w-16 h-16 rounded-lg object-cover">
+                                @if($property->all_images && count($property->all_images) > 0)
+                                    <img src="{{ $property->all_images[0] }}" alt="{{ $property->title }}" class="w-16 h-16 rounded-lg object-cover">
                                 @else
                                     <div class="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center">
                                         <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

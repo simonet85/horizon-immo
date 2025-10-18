@@ -22,16 +22,15 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Images -->
         <div class="lg:col-span-2">
-            @if($property->images)
-                @php $images = is_array($property->images) ? $property->images : json_decode($property->images, true); @endphp
+            @if($property->all_images && count($property->all_images) > 0)
                 <div class="space-y-4">
                     <!-- Image principale -->
-                    <img src="{{ $images[0] }}" alt="{{ $property->title }}" class="w-full h-96 object-cover rounded-lg">
-                    
+                    <img src="{{ $property->all_images[0] }}" alt="{{ $property->title }}" class="w-full h-96 object-cover rounded-lg">
+
                     <!-- Autres images -->
-                    @if(count($images) > 1)
+                    @if(count($property->all_images) > 1)
                         <div class="grid grid-cols-3 md:grid-cols-4 gap-2">
-                            @foreach(array_slice($images, 1) as $image)
+                            @foreach(array_slice($property->all_images, 1) as $image)
                                 <img src="{{ $image }}" alt="{{ $property->title }}" class="h-24 w-full object-cover rounded-lg">
                             @endforeach
                         </div>
