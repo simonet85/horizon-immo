@@ -21,7 +21,9 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-{{ $slot }}
+© {{ date('Y') }} ZB Investments. Tous droits réservés.<br>
+Votre partenaire immobilier en Afrique du Sud<br>
+📧 <a href="mailto:info@zbinvestments-ci.com">info@zbinvestments-ci.com</a> | 📞 +27 65 86 87 861
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>
